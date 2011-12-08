@@ -51,8 +51,8 @@ var _is_proto_p = {}.isPrototypeOf
 //
 // is_p :: Any, Object | Fun → Bool
 function is_p(subject, prototype) {
-  return typeof subject == 'function'?  subject instanceof prototype
-  :      /* plain Object? */            _is_proto_p.call(subject, prototype) }
+  return fun_p(prototype)?    subject instanceof prototype
+  :      /* plain Object? */  _is_proto_p.call(subject, prototype) }
 
 
 //// Function name
@@ -62,7 +62,7 @@ function is_p(subject, prototype) {
 // mode would yield Global (we don't want that!), we fix it by manually
 // returning the internal ``[[Class]]`` for such edge cases.
 //
-// name :: Any       → String
+// name :: Any → String
 function name(subject) {
   return subject != null?   _class.call(subject).slice(8, -1)
   :      subject === null?  'Null'
