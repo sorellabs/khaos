@@ -22,6 +22,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /// Module khaos.type
+//
 // This module provides functions for testing internal properties of the
 // objects, and might be useful for multiple dispatching in certain
 // applications.
@@ -37,7 +38,7 @@
 // prototypical object orientation nature.
 //
 // :see also:
-//   {:mod:interface} — structural type checking module
+//   :mod:`interface` — structural type checking module
 
 
 // Aliases
