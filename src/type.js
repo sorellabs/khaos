@@ -43,7 +43,6 @@
 
 // Aliases
 var _class      = {}.toString
-var _is_proto_p = {}.isPrototypeOf
 
 
 //// Function is_p
@@ -52,7 +51,7 @@ var _is_proto_p = {}.isPrototypeOf
 // is_p :: Any, Object | Fun → Bool
 function is_p(subject, prototype) {
   return fun_p(prototype)?    subject instanceof prototype
-  :      /* plain Object? */  _is_proto_p.call(subject, prototype) }
+  :      /* plain Object? */  prototype.isPrototypeOf(subject) }
 
 
 //// Function name
