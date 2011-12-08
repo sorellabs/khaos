@@ -117,11 +117,19 @@ function bool_p(subject) {
 
 
 //// Function object_p
-// Checks if an object is an ``Object`` rather than a primitive.
+// Checks if an object is an ``Object``.
 //
 // object_p :: Any → Bool
 function object_p(subject) {
-  return Object(subject) === subject }
+  return name(subject) == 'Object' }
+
+
+//// Function primitive_p
+// Checks if the subject is a primitive.
+//
+// primitive_p :: Any → Bool
+function primitive_p(subject) {
+  return Object(subject) !== subject }
 
 
 //// Function undefined_p
@@ -142,4 +150,5 @@ exports.regexp_p    = regexp_p
 exports.fun_p       = fun_p
 exports.bool_p      = bool_p
 exports.object_p    = object_p
+exports.primitive_p = primitive_p
 exports.undefined_p = undefined_p
