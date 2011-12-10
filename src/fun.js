@@ -65,11 +65,11 @@ function delay(fun, seconds) {
 // that support the ``postMessage`` protocol. Otherwise, it'll rely on
 // the setTimeout application, which can be "slow".
 //
-// defer :: Fun -> Unspecified
+// defer :: Fun -> Undefined
 function defer(fun) {
-  return node_p?            process.nextTick(fun)
-  :      deferred_timeout?  deffered_timeout(fun)
-  :      /* old engine? */  delay(fun, 0) }
+    node_p?            process.nextTick(fun)
+  : deferred_timeout?  deffered_timeout(fun)
+  : /* old engine? */  delay(fun, 0) }
 
 // Simulates a zero-timeout for browsers, using postMessage. Based on
 // Mozilla's own David Baron code.
