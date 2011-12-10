@@ -48,7 +48,7 @@ var _class      = {}.toString
 //// Function is_p
 // Checks if an object inherits from the given prototype.
 //
-// is_p :: Any, Object | Fun → Bool
+// is_p :: Any, Object | Fun -> Bool
 function is_p(subject, prototype) {
   return fun_p(prototype)?    subject instanceof prototype
   :      /* plain Object? */  prototype.isPrototypeOf(subject) }
@@ -61,7 +61,7 @@ function is_p(subject, prototype) {
 // mode would yield Global (we don't want that!), we fix it by manually
 // returning the internal ``[[Class]]`` for such edge cases.
 //
-// name :: Any → String
+// name :: Any -> String
 function name(subject) {
   return subject != null?   _class.call(subject).slice(8, -1)
   :      subject === null?  'Null'
@@ -71,7 +71,7 @@ function name(subject) {
 //// Function string_p
 // Checks if an object is a ``String``
 //
-// string_p :: Any → Bool
+// string_p :: Any -> Bool
 function string_p(subject) {
   return name(subject) == 'String' }
 
@@ -79,7 +79,7 @@ function string_p(subject) {
 //// Function number_p
 // Checks if an object is a ``Number``
 //
-// number_p :: Any → Bool
+// number_p :: Any -> Bool
 function number_p(subject) {
   return name(subject) == 'Number' }
 
@@ -87,7 +87,7 @@ function number_p(subject) {
 //// Function date_p
 // Checks if an object is a ``Date``
 //
-// date_p :: Any → Bool
+// date_p :: Any -> Bool
 function date_p(subject) {
   return name(subject) == 'Date' }
 
@@ -95,7 +95,7 @@ function date_p(subject) {
 //// Function regexp_p
 // Checks if an object is a ``RegExp``
 //
-// regexp_p :: Any → Bool
+// regexp_p :: Any -> Bool
 function regexp_p(subject) {
   return name(subject) == 'RegExp' }
 
@@ -103,7 +103,7 @@ function regexp_p(subject) {
 //// Function fun_p
 // Checks if an object is a ``Function``
 //
-// fun_p :: Any → Bool
+// fun_p :: Any -> Bool
 function fun_p(subject) {
   return name(subject) == 'Function' }
 
@@ -111,7 +111,7 @@ function fun_p(subject) {
 //// Function bool_p
 // Checks if an object is a ``Boolean``
 //
-// bool_p :: Any → Bool
+// bool_p :: Any -> Bool
 function bool_p(subject) {
   return name(subject) == 'Boolean' }
 
@@ -119,7 +119,7 @@ function bool_p(subject) {
 //// Function object_p
 // Checks if an object is an ``Object``.
 //
-// object_p :: Any → Bool
+// object_p :: Any -> Bool
 function object_p(subject) {
   return name(subject) == 'Object' }
 
@@ -127,7 +127,7 @@ function object_p(subject) {
 //// Function primitive_p
 // Checks if the subject is a primitive.
 //
-// primitive_p :: Any → Bool
+// primitive_p :: Any -> Bool
 function primitive_p(subject) {
   return Object(subject) !== subject }
 
@@ -135,7 +135,7 @@ function primitive_p(subject) {
 //// Function undefined_p
 // Checks if an object is undefined.
 //
-// undefined_p :: Any → Bool
+// undefined_p :: Any -> Bool
 function undefined_p(subject) {
   return subject === void subject }
 
