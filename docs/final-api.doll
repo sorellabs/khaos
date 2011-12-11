@@ -23,3 +23,11 @@
     primitive_p :: Any -> Bool
     undefined_p :: Any -> Bool
     
+
+- Object orientation / composition
+  extend :: Object, (Object | DataObject)... -> Object
+  clone  :: proto:Object, (Object | DataObject)... -> Object
+
+  Object base
+    make  :: Any... -> Object
+    clone :: Any... -> Object
