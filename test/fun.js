@@ -27,12 +27,10 @@ describe('Module: fun', function() {
   describe('delay :: Fun, Number -> Unspecified', function() {
     it('- Should execute the function after at least the given time', function(done) {
       var start = new Date
-      fun.delay(teh_test, 1)
-
-      function teh_test() {
+      fun.delay(1, function() {
         var delta_time = (new Date - start) / 1000
         delta_time.should.be.above(1)
-        done() }})})
+        done() })})})
 
   describe('defer :: Fun -> Unspecified', function() {
     it('- Should asynchronously call the function as soon as possible', function(done) {

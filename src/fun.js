@@ -53,8 +53,8 @@ function partial(fun) { var args
 //// Function delay
 // Executes the given function after, at least, the given seconds.
 //
-// delay :: Fun, Number -> Unspecified
-function delay(fun, seconds) {
+// delay :: Number, Fun -> Unspecified
+function delay(seconds, fun) {
   return setTimeout(fun, seconds * 1000) }
 
 
@@ -69,7 +69,7 @@ function delay(fun, seconds) {
 function defer(fun) {
     node_p?            process.nextTick(fun)
   : deferred_timeout?  deffered_timeout(fun)
-  : /* old engine? */  delay(fun, 0) }
+  : /* old engine? */  delay(0, fun) }
 
 // Simulates a zero-timeout for browsers, using postMessage. Based on
 // Mozilla's own David Baron code.
