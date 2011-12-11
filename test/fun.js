@@ -24,7 +24,7 @@ describe('Module: fun', function() {
       fun.partial(get_this, 2).call(get_this).should.equal(get_this) })
   })
 
-  describe('delay :: Fun, Number -> Unspecified', function() {
+  describe('delay :: Number, Fun -> Unspecified', function() {
     it('- Should execute the function after at least the given time', function(done) {
       var start = new Date
       fun.delay(1, function() {
