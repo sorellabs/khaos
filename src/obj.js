@@ -26,20 +26,54 @@ var slice   = [].slice
   , keys    = Object.keys
   , inherit = Object.create
 
+
+//// Interface DataObject
+// :: { "to_data" -> () -> Object }
+
+
+//// Function callable_p
+// :internal:
+// Checks if the subject has an internal [[Call]] property.
+//
+// callable_p :: Any -> Bool
 function callable_p(subject) {
   return typeof subject == 'function' }
 
 
+//// Function data_obj_p
+// :internal:
+// Checks if the given subject matches the DataObject interface
+//
+// data_obj_p :: Any -> Bool
 function data_obj_p(subject) {
   return subject != null
   &&     typeof subject.to_data == 'function' }
 
 
+//// Function resolve_mixins
+// :internal:
+// Returns the proper mixin for the given object.
+//
+// resolve_mixin :: Object -> Object
 function resolve_mixin(object) {
   return data_obj_p(object)?  object.to_data()
   :                           object }
 
 
+//// Function fast_extend
+// :internal:
+// Extends the target object with the provided mixins, using a
+// right-most precedence rule — when a there's a property conflict, the
+// property defined in the last object wins.
+//
+// DataObjects are properly handled by the :fun:`resolve_mixin`
+// function.
+//
+// :warning: low-level
+//    This function is not meant to be called directly from end-user
+//    code, use the :fun:`extend` function instead.
+//
+// fast_extend :: Object, [Object | DataObject] -> Object
 function fast_extend(object, mixins) { var i, j, len, mixin, props, key
   for (i = 0, len = mixins.length; i < len; ++i) {
     mixin = resolve_mixin(mixins[i])
@@ -51,17 +85,42 @@ function fast_extend(object, mixins) { var i, j, len, mixin, props, key
   return object }
 
 
+//// Function extend
+// Extends the target object with the provided mixins, using a
+// right-most precedence rule.
+//
+// :see-also:
+//   - fun:`fast_extend` — lower level function.
+//
+// extend :: Object, (Object | DataObject)... -> Object
 function extend(target) { var args
   args = [target]
   args.push(slice.call(arguments, 1))
   return fast_extend.apply(null, args) }
 
 
+//// Function clone
+// Creates a new object inheriting from the given prototype and extends
+// the new instance with the provided mixins.
+//
+// clone :: Object, (Object | DataObject)... -> Object
 function clone(proto) {
   return fast_extend(inherit(proto), slice.call(arguments, 1)) }
   
 
+//// Object base
+// The root object for basing all the OOP code. Provides the previous
+// primitive combinators in an easy and OOP-way.
 var base = {
+
+  ///// Function make
+  // Constructs new instances of the object the function is being
+  // applied to.
+  //
+  // If the object provides an ``init`` function, that function is
+  // invoked to do initialisation on the new instance.
+  //
+  // make :: Any... -> Object
   make:
   function make() { var result
     result = inherit(this)
@@ -70,11 +129,17 @@ var base = {
 
     return result }
 
+  ///// Function clone
+  // Constructs a new object that inherits from the object this function
+  // is being applied to, and extends it with the provided mixins.
+  //
+  // clone :: (Object | DataObject)... -> Object
 , clone:
   function clone() {
     return fast_extend(inherit(this), arguments) }}
 
 
+//// -Exports
 exports.extend = extend
 exports.clone  = clone
 exports.base   = base
