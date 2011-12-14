@@ -2,7 +2,7 @@ var obj = require('../src/obj')
 
 describe('Module: obj', function() {
 
-  describe('extend :: Obj, Obj... -> Obj', function() {
+  describe('extend', function() {
     it('- Should modify the first argument', function() {
       var x = {}
       obj.extend(x, {a: 1})
@@ -25,7 +25,7 @@ describe('Module: obj', function() {
       x.data[0].should.equal(1) })
   })
 
-  describe('clone :: proto:Obj, Obj... -> Obj', function() {
+  describe('clone', function() {
     it('- Should make a new object inheriting from proto', function() {
       var foo = {a:1}
       var bar = obj.clone(foo, {a:2})
@@ -44,7 +44,7 @@ describe('Module: obj', function() {
   })
 
   describe('Object: base', function() {
-    describe('make :: Any... -> Obj', function() {
+    describe('make', function() {
       it('- Should clone `this`', function() {
         var x = obj.base.make()
         obj.base.isPrototypeOf(x).should.be.true })
@@ -55,7 +55,7 @@ describe('Module: obj', function() {
         z.a.should.equal(3) })
     })
 
-    describe('clone :: Obj... -> Obj', function() {
+    describe('clone', function() {
       it('- Should clone `this`', function(){
         var bar = obj.base.clone({a:2})
         obj.base.isPrototypeOf(bar).should.be.true })

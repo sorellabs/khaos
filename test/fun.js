@@ -6,14 +6,14 @@ function get_this() { return this             }
 
 describe('Module: fun', function() {
 
-  describe('not :: Fun -> Fun -> Bool', function() {
+  describe('not', function() {
     it('- Should return a new predicate, with inverted result', function() {
       fun.not(Array.isArray)({}).should.be.true
       fun.not(Array.isArray)([]).should.be.false
       fun.not(function(){ return arguments.length == 3})(1,2,3).should.be.false
       fun.not(function(){ return this === fun }.bind(fun))().should.be.false })})
 
-  describe('partial :: Fun, Any... -> Fun', function() {
+  describe('partial', function() {
     it('- Should yield a function with the bound arguments', function() {
       fun.partial(arglen, 1, 2, 3)().should.equal(3) })
 
@@ -24,7 +24,7 @@ describe('Module: fun', function() {
       fun.partial(get_this, 2).call(get_this).should.equal(get_this) })
   })
 
-  describe('delay :: Number, Fun -> Unspecified', function() {
+  describe('delay', function() {
     it('- Should execute the function after at least the given time', function(done) {
       var start = new Date
       fun.delay(1, function() {
@@ -32,14 +32,14 @@ describe('Module: fun', function() {
         delta_time.should.be.above(1)
         done() })})})
 
-  describe('defer :: Fun -> Unspecified', function() {
+  describe('defer', function() {
     it('- Should asynchronously call the function as soon as possible', function(done) {
       fun.defer(function() {
         async.should.be.true
         done() })
       var async = true })})
 
-  describe('compose :: Fun... -> Fun', function() {
+  describe('compose', function() {
     it('- Should apply the functions in order', function() {
       var arr = [1, 2, 3]
       fun.compose(take(1), take(2), take(3))()

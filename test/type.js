@@ -2,7 +2,7 @@ var type = require('../src/type')
 
 describe('Module: type', function() {
 
-  describe('is_p :: Any, Object | Fun -> Bool', function() {
+  describe('is_p', function() {
     it('- Should check for instanceof relationships when given a Function', function() {
       type.is_p([], Array).should.be.true
       type.is_p([], Object).should.be.true
@@ -14,7 +14,7 @@ describe('Module: type', function() {
       type.is_p({}, Array.prototype).should.be.false })
   })
 
-  describe('name :: Any -> String', function() {
+  describe('name', function() {
     it('- Should return the [[Class]] of the given subject', function() {
       type.name([]).should.equal('Array')
       type.name({}).should.equal('Object')
@@ -32,41 +32,41 @@ describe('Module: type', function() {
       type.name(new Number(0)).should.equal('Number') })
   })
 
-  describe('string_p :: Any -> Bool', function() {
+  describe('string_p', function() {
     it('- Should check if the subject is-a plain String', function() {
       type.string_p('').should.be.true
       type.string_p(new String('')).should.be.true
       type.string_p(['']).should.be.false })
   })
 
-  describe('number_p :: Any -> Bool', function() {
+  describe('number_p', function() {
     it('- Should check if the subject is-a plain Number', function() {
       type.number_p(0).should.be.true
       type.number_p(NaN).should.be.true
       type.number_p('0').should.be.false })
   })
 
-  describe('date_p :: Any -> Bool', function() {
+  describe('date_p', function() {
     it('- Should check if the subject is-a Date', function() {
       type.date_p(new Date).should.be.true
       type.date_p(0).should.be.false })
   })
 
-  describe('regexp_p :: Any -> Bool', function() {
+  describe('regexp_p', function() {
     it('- Should check if the subject is-a Regular Expression', function() {
       type.regexp_p(/re/).should.be.true
       type.regexp_p(new RegExp('re')).should.be.true
       type.regexp_p('re').should.be.false })
   })
 
-  describe('fun_p :: Any -> Bool', function() {
+  describe('fun_p', function() {
     it('- Should check if the subject is-a Function', function() {
       type.fun_p(function(){}).should.be.true
       type.fun_p(new Function).should.be.true
       type.fun_p(/re/).should.be.false })
   })
 
-  describe('bool_p :: Any -> Bool', function() {
+  describe('bool_p', function() {
     it('- Should check if the subject is-a Boolean', function() {
       type.bool_p(true).should.be.true
       type.bool_p(false).should.be.true
@@ -74,14 +74,14 @@ describe('Module: type', function() {
       type.bool_p(0).should.be.false })
   })
 
-  describe('object_p :: Any -> Bool', function() {
+  describe('object_p', function() {
     it('- Should check if something is-a Object', function() {
       type.object_p({}).should.be.true
       type.object_p([]).should.be.false
       type.object_p(null).should.be.false })
   })
 
-  describe('primitive_p :: Any -> Bool', function() {
+  describe('primitive_p', function() {
     it('- Should check if something is a primitive', function() {
       type.primitive_p(1).should.be.true
       type.primitive_p('').should.be.true
@@ -89,7 +89,7 @@ describe('Module: type', function() {
       type.primitive_p(new Number(1)).should.be.false })
   })
 
-  describe('undefined_p :: Any -> Bool', function() {
+  describe('undefined_p', function() {
     it('- Should check if something is undefined', function() {
       type.undefined_p(undefined).should.be.true
       type.undefined_p(null).should.be.false })
