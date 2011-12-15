@@ -33,7 +33,7 @@ var _keys        = Object.keys
 ///// Function each
 // Applies the iterator function to each key/value pair in the map.
 //
-// each :: {k -> e}, (e, k, {k -> e} -> Ignored Any) -> Undefined
+// each :: {k -> e}, (e, k, {k -> e} -> Ignored) -> Undefined
 function each(map, iterator) { var i, len, props
   props = keys(map)
   for (i = 0, len = props.length; i < len; ++i)
