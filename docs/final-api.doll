@@ -31,3 +31,33 @@
   Object base
     make  :: Any... -> Object
     clone :: Any... -> Object
+
+
+- Collection
+  Module map
+    # Traversable
+    each      :: {k -> e}, (e, k, {k -> e} -> Ignored) -> Undefined
+
+    # Manipulation
+    at        :: {k -> e}, k -> e
+    put       :: {k -> e}, k, e -> {k -> e}
+    remove    :: {k -> e}, k -> {k -> e}
+    clear     :: {k -> e} -> {k -> e}
+
+    # Inspection
+    size      :: {k -> e} -> Number
+    empty_p   :: {k -> e} -> Bool
+    has_key_p :: {k -> e}, k -> Bool
+
+    # Decomposition
+    keys      :: {k -> e} -> [k]
+    values    :: {k -> e} -> [e]
+    items     :: {k -> e} -> [(k, e)]
+
+    # Folding
+    reduce    :: {k -> e}, Any, (Any, e, k -> Any) -> Any
+    reduce    :: {k -> e}, (Any, e, k -> Any) -> Any
+    every     :: {k -> e}, (e, k, {k -> e} -> Bool) -> Bool
+    some      :: {k -> e}, (e, k, {k -> e} -> Bool) -> Bool
+    filter    :: {k -> e}, (e, k, {k -> e} -> Bool) -> {k -> e}
+    map       :: {k -> e}, (e, k, {k -> e} -> e) -> {k -> e}
