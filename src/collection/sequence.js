@@ -22,24 +22,24 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /// Module khaos.collection.sequence
-var __each     = [].each
-  , __push     = [].push
-  , __index_of = [].indexOf
+var __each          = [].each
+  , __push          = [].push
+  , __index_of      = [].indexOf
   , __last_index_of = [].lastIndexOf
-  , __splice   = [].splice
-  , __reduce   = [].reduce
-  , __reduce_right = [].reduceRight
-  , __every    = [].every
-  , __some     = [].some
-  , __filter   = [].filter
-  , __map      = [].map
-  , __slice    = [].slice
-  , __sort     = [].sort
-  , __reverse  = [].reverse
-  , __concat   = [].concat
+  , __splice        = [].splice
+  , __reduce        = [].reduce
+  , __reduce_right  = [].reduceRight
+  , __every         = [].every
+  , __some          = [].some
+  , __filter        = [].filter
+  , __map           = [].map
+  , __slice         = [].slice
+  , __sort          = [].sort
+  , __reverse       = [].reverse
+  , __concat        = [].concat
 
-  , array_p    = Array.isArray
-  , copy       = slice
+  , array_p         = Array.isArray
+  , copy            = slice
 
 
 //// - Traversable <| map
