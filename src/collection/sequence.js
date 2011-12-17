@@ -25,8 +25,10 @@
 var __each     = [].each
   , __push     = [].push
   , __index_of = [].indexOf
+  , __last_index_of = [].lastIndexOf
   , __splice   = [].splice
   , __reduce   = [].reduce
+  , __reduce_right = [].reduceRight
   , __every    = [].every
   , __some     = [].some
   , __filter   = [].filter
@@ -34,6 +36,7 @@ var __each     = [].each
   , __slice    = [].slice
   , __sort     = [].sort
   , __reverse  = [].reverse
+  , __concat   = [].concat
 
   , array_p    = Array.isArray
   , copy       = slice
@@ -45,20 +48,23 @@ function each(sequence, iterator) {
 
 
 //// - Building <| coll
+function insert(sequence, index, value) {
+  __splice.call(sequence, index, 0, value)
+  return sequence }
+
 function add(sequence, value) {
   __push.call(sequence, value) }
 
-function remove(sequence, value) { var index
-  index = __index_of.call(sequence, value)
-  if (index != -1)
-    __splice.call(sequence, index, 1)
+function replace(sequence, value, replacement) { var index
+  do {
+    index = find_first(sequence, value)
+    if (index != -1)  __splice.call(sequence, index, 1, replacement) }
+  while (index != -1)
+
   return sequence }
 
-function replace(sequence, value, replacement) { var index
-  index = __index_of.call(sequence, value)
-  if (index != -1)
-    __splice.call(sequence, index, 1, replacement)
-  return sequence }
+function concatenate(sequence, other_sequence) {
+  return __concat.call(sequence, other_sequence) }
 
 function clear(sequence) {
   array_p(sequence)?  sequence.length = 0
@@ -74,7 +80,7 @@ function put(sequence, value, index) {
   Object(sequence)[index] = value
   return sequence }
 
-function remove_at(sequence, index) {
+function remove(sequence, index) {
   __splice.call(sequence, index, 1)
   return sequence }
 
@@ -82,6 +88,9 @@ function remove_at(sequence, index) {
 //// - Folding <| map
 function reduce(sequence, value, folder) {
   return __reduce.call(sequence, folder, value) }
+
+function reduce_right(sequence, value, folder) {
+  return __reduce_right.call(sequence, folder, value) }
 
 function every(sequence, predicate) {
   return __every.call(sequence, predicate) }
@@ -96,7 +105,8 @@ function map(sequence, predicate) {
   return __map.call(sequence, predicate) }
 
 
-//// - Set <| coll
+//// TODO: Set <| coll
+
 
 
 //// - Inspection <| coll
@@ -107,7 +117,7 @@ function empty_p(sequence) {
   return !size(sequence) }
 
 function has_p(sequence, value) {
-  return __index_of.call(sequence, value) != -1 }
+  return find_first(sequence, value) != -1 }
 
 
 //// - Slicing
@@ -135,13 +145,9 @@ function drop(sequence, size) {
 
 function split(sequence, predicate) {
   return reduce(sequence, [[]], function(result, value, key) {
-                                  if (should_split_p(value, key))
+                                  if (predicate(value, key, sequence))
                                     result.push([])
-                                  last(result).push(value) })
-
-  function should_split_p(value, key) {
-    return predicate(value, key, sequence) }}
-
+                                  last(result).push(value) })}
 
 //// - Sorting
 function sort(sequence, sorter) {
@@ -152,34 +158,42 @@ function reverse(sequence) {
 
 
 //// - Searching
-//// - Stack
-//// - Queue
+function find_first(sequence, value) {
+  return __index_of.call(sequence, value) }
+
+function find_last(sequence, value) {
+  return __last_index_of.call(sequence, value) }
+
 
 //// - Exports
-module.exports = { each      : each
-                 , add       : add
-                 , remove    : remove
-                 , replace   : replace
-                 , clear     : clear
-                 , at        : at
-                 , put       : put
-                 , remove_at : remove_at
-                 , reduce    : reduce
-                 , every     : every
-                 , some      : some
-                 , filter    : filter
-                 , map       : map
-                 , size      : size
-                 , empty_p   : empty_p
-                 , has_p     : has_p
-                 , first     : first
-                 , rest      : rest
-                 , last      : last
-                 , but_last  : but_last
-                 , slice     : slice
-                 , take      : take
-                 , drop      : drop
-                 , split     : split
-                 , sort      : sort
-                 , reverse   : reverse
+module.exports = { each         : each
+                 , insert       : insert
+                 , concatenate  : concatenate
+                 , add          : add
+                 , replace      : replace
+                 , clear        : clear
+                 , at           : at
+                 , put          : put
+                 , remove       : remove
+                 , reduce       : reduce
+                 , reduce_right : reduce_right
+                 , every        : every
+                 , some         : some
+                 , filter       : filter
+                 , map          : map
+                 , size         : size
+                 , empty_p      : empty_p
+                 , has_p        : has_p
+                 , first        : first
+                 , rest         : rest
+                 , last         : last
+                 , but_last     : but_last
+                 , slice        : slice
+                 , take         : take
+                 , drop         : drop
+                 , split        : split
+                 , sort         : sort
+                 , reverse      : reverse
+                 , find_first   : find_first
+                 , find_last    : find_last
                  }
