@@ -108,6 +108,26 @@ function compose() { var funs, len
     return result[0] }}
 
 
+//// Function uncurry
+// Yields a function that takes a list of arguments, then applies those
+// arguments to the wrapped function.
+//
+// uncurry :: (Fun -> a) -> [Any] -> a
+function uncurry(fun) {
+  return function() {
+    return fun.apply(arguments) }}
+
+//// Function uncurry_bind
+// Yields a function that takes a list of arguments, the first being the
+// object the function should be applied to, the rest being the
+// arguments to be passed to the function.
+//
+// uncurry_bind :: (Fun -> a) -> [Any] -> a
+function uncurry_bind(fun) {
+  return function() {
+    return fun.call.apply(fun, arguments) }}
+
+
 //// - Exports
 exports.not     = not
 exports.partial = partial
