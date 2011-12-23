@@ -140,9 +140,18 @@ function undefined_p(subject) {
   return subject === void subject }
 
 
+//// Function callable_p
+// Checks if an object can be called as a function.
+//
+// callable_p :: Any -> Bool
+function callable_p(subject) {
+  return typeof subject == 'function' }
+
+
 //// - Exports
 exports.is_p        = is_p
 exports.name        = name
+exports.array_p     = Array.isArray
 exports.string_p    = string_p
 exports.number_p    = number_p
 exports.date_p      = date_p
@@ -152,3 +161,4 @@ exports.bool_p      = bool_p
 exports.object_p    = object_p
 exports.primitive_p = primitive_p
 exports.undefined_p = undefined_p
+exports.callable_p  = callable_p
