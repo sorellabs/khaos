@@ -129,8 +129,10 @@ function uncurry_bind(fun) {
 
 
 //// - Exports
-exports.not     = not
-exports.partial = partial
-exports.delay   = delay
-exports.defer   = defer
-exports.compose = compose
+exports.not          = not
+exports.partial      = partial
+exports.delay        = delay
+exports.defer        = defer
+exports.compose      = compose
+exports.uncurry      = uncurry
+exports.uncurry_bind = uncurry_bind
