@@ -28,6 +28,13 @@
 
 var _slice = [].slice
   , node_p = 'process' in this
+ 
+
+//// Function noop
+// Does nothing
+//
+// noop :: () -> Undefined
+function noop() { }
 
 
 
@@ -127,8 +134,7 @@ function uncurry_bind(fun) {
 //
 // partial :: (Any... -> a), Any... -> Any... -> a
 function partial(fun) {
-  var args
-  args = _slice.call(arguments, 1)
+  var args = _slice.call(arguments, 1)
   return function _partial() {
     return fun.apply(this, args.concat(_slice.call(arguments))) }}
 
@@ -172,8 +178,7 @@ function until(fun, predicate) {
 //
 // when :: (Any... -> a), (() -> Bool) -> Any... -> Maybe a
 function when(fun, predicate) {
-  var f
-  f = noop
+  var f = noop
   return function _when() {
     if (predicate()) f = fun
     return f.apply(this, arguments) }}
@@ -258,4 +263,6 @@ module.exports = { delay        : delay
                  , or           : or
                  , and          : and
                  , not          : not
+
+                 , internal     : { noop: noop }
                  }
