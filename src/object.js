@@ -65,7 +65,8 @@ function resolve_mixin(object) {
 //    code, use the :fun:`extend` function instead.
 //
 // fast_extend :: Object, [Object | DataObject] -> Object
-function fast_extend(object, mixins) { var i, j, len, mixin, props, key
+function fast_extend(object, mixins) {
+  var i, j, len, mixin, props, key
   for (i = 0, len = mixins.length; i < len; ++i) {
     mixin = resolve_mixin(mixins[i])
     props = keys(mixin)
@@ -84,8 +85,8 @@ function fast_extend(object, mixins) { var i, j, len, mixin, props, key
 //   - fun:`fast_extend` — lower level function.
 //
 // extend :: Object, (Object | DataObject)... -> Object
-function extend(target) { var args
-  args = [target]
+function extend(target) {
+  var args = [target]
   args.push(slice.call(arguments, 1))
   return fast_extend.apply(null, args) }
 
@@ -97,7 +98,7 @@ function extend(target) { var args
 // clone :: Object, (Object | DataObject)... -> Object
 function clone(proto) {
   return fast_extend(inherit(proto), slice.call(arguments, 1)) }
-  
+
 
 //// Object Clonable
 // The root object for basing all the OOP code. Provides the previous
@@ -113,8 +114,8 @@ var Clonable = {
   //
   // make :: Any... -> Object
   make:
-  function make() { var result
-    result = inherit(this)
+  function make() {
+    var result = inherit(this)
     if (typeof result.init == 'function')
       result.init.apply(result, slice.call(arguments))
 
@@ -131,10 +132,10 @@ var Clonable = {
 
 
 //// -Exports
-exports.extend   = extend
-exports.clone    = clone
-exports.clonable = Clonable
+module.exports = { extend   : extend
+                 , clone    : clone
+                 , Clonable : Clonable
 
-exports.internal = { data_obj_p    : data_obj_p
-                   , fast_extend   : fast_extend
-                   , resolve_mixin : resolve_mixin }
+                 , internal : { data_obj_p    : data_obj_p
+                              , fast_extend   : fast_extend
+                              , resolve_mixin : resolve_mixin }}
