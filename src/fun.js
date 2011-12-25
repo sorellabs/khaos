@@ -94,8 +94,8 @@ function compose() {
 
 
 
-// TODO: curry :: (Any... -> a) -> Any -> ... -> a    
-    
+// TODO: curry :: (Any... -> a) -> Any -> ... -> a
+
 
 
 //// Function uncurry
@@ -215,7 +215,7 @@ function and() {
   var funs, len
   funs = arguments
   len  = funs.length
-  
+
   return function _and() {
     var i, result
     for (i = 0; i < len; ++i) {
@@ -223,7 +223,7 @@ function and() {
       if (!result) return false }
 
     return result }}
-  
+
 
 //// Function not
 // Returns a new predicate that negates the given one.
@@ -233,7 +233,7 @@ function not() {
   var funs, len
   funs = arguments
   len  = funs.length
-  
+
   return function _not() {
     var i, result
     for (i = 0; i < len; ++i) {
@@ -259,4 +259,3 @@ module.exports = { delay        : delay
                  , and          : and
                  , not          : not
                  }
-                   
