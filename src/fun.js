@@ -28,7 +28,7 @@
 
 var _slice = [].slice
   , node_p = 'process' in this
- 
+
 
 //// Function noop
 // Does nothing
@@ -56,12 +56,13 @@ function delay(seconds, fun) {
 // defer :: Fun -> Undefined
 function defer(fun) {
     node_p?            process.nextTick(fun)
-  : deferred_timeout?  deffered_timeout(fun)
+  : deferred_timeout?  deferred_timeout(fun)
   : /* old engine? */  delay(0, fun) }
 
 // Simulates a zero-timeout for browsers, using postMessage. Based on
 // Mozilla's own David Baron code.
-deferred_timeout = ('postMessage' in this) && function() {
+var deferred_timeout = ('postMessage' in this) && function() {
+  var timeouts, message
   timeouts = []
   message  = 'khaos-deferred-application'
 
