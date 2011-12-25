@@ -42,7 +42,7 @@
 
 
 // Aliases
-var _class      = {}.toString
+var _class = {}.toString
 
 
 //// Function is_p
@@ -149,16 +149,17 @@ function callable_p(subject) {
 
 
 //// - Exports
-exports.is_p        = is_p
-exports.name        = name
-exports.array_p     = Array.isArray
-exports.string_p    = string_p
-exports.number_p    = number_p
-exports.date_p      = date_p
-exports.regexp_p    = regexp_p
-exports.fun_p       = fun_p
-exports.bool_p      = bool_p
-exports.object_p    = object_p
-exports.primitive_p = primitive_p
-exports.undefined_p = undefined_p
-exports.callable_p  = callable_p
+module.exports = { is_p        : is_p
+                 , name        : name
+                 , array_p     : array_p
+                 , string_p    : string_p
+                 , number_p    : number_p
+                 , date_p      : date_p
+                 , regexp_p    : regexp_p
+                 , fun_p       : fun_p
+                 , bool_p      : bool_p
+                 , object_p    : object_p
+                 , primitive_p : primitive_p
+                 , undefined_p : undefined_p
+                 , callable_p  : callable_p
+                 }
