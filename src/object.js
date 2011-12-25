@@ -1,4 +1,4 @@
-/// obj.js --- Prototypical utilities
+/// object.js --- Prototypical utilities
 //
 // Copyright (c) 2011 Quildreen Motta
 //
@@ -21,7 +21,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-/// Module khaos.obj
+/// Module khaos.object
 var slice   = [].slice
   , keys    = Object.keys
   , inherit = Object.create
@@ -29,15 +29,6 @@ var slice   = [].slice
 
 //// Interface DataObject
 // :: { "to_data" -> () -> Object }
-
-
-//// Function callable_p
-// :internal:
-// Checks if the subject has an internal [[Call]] property.
-//
-// callable_p :: Any -> Bool
-function callable_p(subject) {
-  return typeof subject == 'function' }
 
 
 //// Function data_obj_p
@@ -108,10 +99,10 @@ function clone(proto) {
   return fast_extend(inherit(proto), slice.call(arguments, 1)) }
   
 
-//// Object base
+//// Object Clonable
 // The root object for basing all the OOP code. Provides the previous
 // primitive combinators in an easy and OOP-way.
-var base = {
+var Clonable = {
 
   ///// Function make
   // Constructs new instances of the object the function is being
@@ -124,7 +115,7 @@ var base = {
   make:
   function make() { var result
     result = inherit(this)
-    if (callable_p(result.init))
+    if (typeof result.init == 'function')
       result.init.apply(result, slice.call(arguments))
 
     return result }
@@ -140,11 +131,10 @@ var base = {
 
 
 //// -Exports
-exports.extend = extend
-exports.clone  = clone
-exports.base   = base
+exports.extend   = extend
+exports.clone    = clone
+exports.clonable = Clonable
 
-exports.internal = { data_obj_p:    data_obj_p
-                   , callable_p:    callable_p
-                   , fast_extend:   fast_extend
-                   , resolve_mixin: resolve_mixin }
+exports.internal = { data_obj_p    : data_obj_p
+                   , fast_extend   : fast_extend
+                   , resolve_mixin : resolve_mixin }
