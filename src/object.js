@@ -138,4 +138,5 @@ module.exports = { extend   : extend
 
                  , internal : { data_obj_p    : data_obj_p
                               , fast_extend   : fast_extend
-                              , resolve_mixin : resolve_mixin }}
+                              , resolve_mixin : resolve_mixin }
+                 }
