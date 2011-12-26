@@ -1,0 +1,373 @@
+-- Core interfaces
+Interface Maybe 
+:: a
+ | Undefined
+
+Interface Ordering
+:: lower:   -Infinity .. -1
+ | equal:   0
+ | greater: 1 .. Infinity
+
+
+
+
+-- Enables functional/higher-order function driven programming
+Package functional
+  -- Provides basic features for functional programming
+  Module core
+    -- Delays the execution of a function by X seconds
+    delay :: Number, Fun -> TimerID
+
+    -- Defer the execution of a function for async
+    defer :: Fun -> Undefined
+
+    -- Function composition    
+    compose :: Fun... -> Fun
+
+    -- Makes a function that applies a list as arguments
+    uncurry :: (Any... -> a) -> [Any] -> a
+
+    -- Same as uncurry, but car is `this'
+    uncurry_bind :: (<Any> Any... -> a) -> [Any, Any...] -> a
+
+    -- Haskell currying, assumes Fun.length so doesn't work with variadics
+    curry :: (Fun... -> a) -> Any -> ... -> a
+
+    -- Partial with selective specialisation
+    partial :: (Fun... -> a), Pattern... -> Any... -> a
+
+    -- Applies Fun X times before turning into a NOOP
+    limit :: (Fun -> a), Number -> Fun -> a
+
+    -- same as (limit fn 1)
+    once :: (Fun -> a) -> Fun -> a
+
+    -- Turns Fun into NOOP when the predicate passes
+    until :: (Fun -> a), (Fun -> Bool) -> Fun -> a
+
+    -- Acts as NOOP until the predicate passes
+    when :: (Fun -> a), (Fun -> Bool) -> Fun -> a
+
+    -- Identity function, returns first argument
+    identity :: a -> Fun -> a
+    
+    -- First truthy value
+    or :: (Fun -> a)... -> Fun -> a
+
+    -- Last truthy value, given all them pass
+    and :: (Fun -> a)... -> Fun -> a
+
+    -- True if none passes
+    not :: (Fun -> a)... -> Fun -> Bool
+  
+
+  -- Dynamic multiple dispatching on Interfaces
+  Module dispatch
+    -- Multiple dispatched functions
+    Object dispatching <| Clonable
+      -- Adds a function to handle the pattern
+      add :: @Dispatching, [Pattern...], Fun -> Fun
+
+      -- Removes any function that matches the pattern, returns 'em
+      remove :: @Dispatching, [Pattern...] -> [Fun]
+
+      -- Retrieves the underlying function that matches the arguments
+      resolve :: @Dispatching, Any... -> Fun
+  
+
+-- Object orientation routines
+Package object
+  Module core
+    extend :: Object, (Object | DataObject)... -> Object
+    clone  :: Object, (Object | DataObject)... -> Object
+    Object clonable
+      make  :: @Clonable, Any... -> Object
+      clone :: @Clonable, Any... -> Object
+      
+  Module traits
+
+
+-- Type checking facilities
+Package types
+  -- is-a relationship tests
+  Module strict
+    -- Is LHS a subtype of RHS?
+    is? :: Any, Object | Fun -> Bool
+
+    -- Returns the [[Class]] of the subject
+    name :: Any -> String
+
+    -- Is the subject a String?
+    string? :: Any -> Bool
+
+    -- Is the subject a Number?
+    number? :: Any -> Bool
+
+    -- Is the subject a Date?
+    date? :: Any -> Bool
+
+    -- Is the subject a RegExp?
+    regexp? :: Any -> Bool
+
+    -- Is the subject a Function?
+    fun? :: Any -> Bool
+
+    -- Is the subject a Boolean?
+    bool? :: Any -> Bool
+
+    -- Is the subject a plain object?
+    object? :: Any -> Bool
+
+    -- Is the subject a primitive?
+    primitive? :: Any -> Bool
+
+     -- Is the osubject undefined?
+    undefined :: Any -> Bool
+
+    -- Is the object [[Call]]able?
+    callable? :: Any -> Bool
+
+
+  -- Structural matching
+  Module interface
+    -- Creates an Interface from an Object
+    make :: Object -> Interface
+
+    -- Does object have the structure defined by Interface?
+    matches? :: Interface, Object -> Bool
+
+
+  -- First-class pattern matching
+  Module pattern
+
+
+-- Collection handling API
+Package collection
+  Module iterators
+    Interface Iterable
+    :: next:Fun, done:Fun -> Any
+    
+    -- Returns an iterable for a data structure
+    iterate :: Any -> Iterable
+
+    -- Returns an iterable from a sequence
+    sequence :: [Any] -> Fun, Fun -> Any
+
+    -- Returns an iterable from an object
+    map :: {Any -> Any} -> Fun, Fun -> Any
+
+    
+  Module core
+    -- Strict evaluation of an iterable
+    each :: Iterable, step:Fun, done:Fun -> Iterable
+
+
+  -- All of these generate iterators
+  Module lazy
+    -- Reduce an iterable left->right
+    reduce :: Iterable, (acc:Any, val:e -> Any) -> Iterable
+
+    -- Proxies values of an iterable
+    map :: Iterable, (e, k -> e) -> Iterable
+
+    -- Filters values of an iterable
+    filter :: Iterable, (e, k -> Bool) -> Iterable
+
+    -- Checks if all values of an iterable pass the predicate
+    every :: Iterable, (e, k -> Bool) -> Iterable
+
+    -- Checks if some values pass the predicate
+    some :: Iterable, (e, k -> Bool) -> Iterable
+    
+  
+  -- Base sequence stuff
+  Module sequence
+    each :: [a], (e, UInt32, [a] -> Any) -> Undefined
+
+    -- Sequence building
+    insert!     :: [a], UInt32, a -> [a]
+    add!        :: [a], a -> [a]
+    clear!      :: [a] -> [a]
+    concatenate :: [a], [a] -> [a]
+    
+    -- Manipulating
+    at       :: [a], UInt32, default:a -> a
+    at       :: [a], UInt32 -> Maybe a
+    put!     :: [a], UInt32, a -> a
+    remove!  :: [a], UInt32 -> a
+    replace! :: [a], value:a, replacement:a -> [a]
+
+    -- Inspection
+    size   :: [a] -> UInt32
+    count  :: [a], a -> UInt32
+    empty? :: [a] -> Bool
+    has?   :: [a], a -> Bool
+
+    -- Slicing
+    first    :: [a] -> Maybe a
+    rest     :: [a] -> [a]
+    last     :: [a] -> Maybe a
+    but_last :: [a] -> Maybe a
+    slice    :: [a], start:Int32, end:Int32 -> [a]
+    slice    :: [a], start:Int32 -> [a]            # assumes end: size [a]
+    slice    :: [a] -> [a]                         # assumes start: 0, end: size [a]
+    take     :: [a], UInt32 -> [a]
+    drop     :: [a], UInt32 -> [a]
+    split    :: [a], (a, UInt32, [a] -> Bool) -> [[a]]
+
+    -- Sorting
+    sorted   :: [a], (a, a -> Ordering) -> [a]
+    reversed :: [a] -> [a]
+
+    -- Searching
+    find      :: [a], a -> Number
+    find_last :: [a], a -> Number
+    
+
+    -- Folding
+    reduce       :: [a], initial:Any, (acc:Any, a -> Any) -> Any
+    reduce       :: [a], (acc:Any, a -> Any) -> Any
+    reduce_right :: [a], initial:Any, (acc:Any, a -> Any) -> Any
+    reduce_right :: [a], (acc:Any, a -> Any) -> Any
+    every        :: [a], (a, UInt32, [a] -> Bool) -> Bool
+    some         :: [a], (a, UInt32, [a] -> Bool) -> Bool
+    filter       :: [a], (a, UInt32, [a] -> Bool) -> [a]
+    map          :: [a], (a, UInt32, [a] -> a) -> [a]
+
+    
+
+  Module set
+    each :: {a}, (a, {a} -> Any) -> Undefined
+
+    -- Manipulation
+    add!     :: {a}, a -> {a}
+    clear!   :: {a} -> {a}
+    remove!  :: {a}, a -> {a}
+    replace! :: {a}, value:a, replacement:a -> {a}
+
+    -- Inspection
+    size   :: {a} -> Number
+    count  :: {a}, a -> Number
+    empty? :: {a} -> Bool
+    has?   :: {a}, a -> Bool
+
+    -- Folding
+    reduce :: {a}, initial:Any, (acc:Any, a -> Any) -> Any
+    reduce :: {a}, (acc:Any, a -> Any) -> Any
+    every  :: {a}, (a, {a} -> Bool) -> Bool
+    some   :: {a}, (a, {a} -> Bool) -> Bool
+    filter :: {a}, (a, {a} -> Bool) -> {a}
+    map    :: {a}, (a, {a} -> a) -> {a}
+
+    -- Set operations
+    union        :: {a}, {a} -> {a}
+    intersection :: {a}, {a} -> {a}
+    difference   :: {a}, {a} -> {a}
+    subset?      :: {a}, {a} -> Bool
+
+  
+  Module map
+    each :: {k -> e}, (e, k, {k -> e}-> Any) -> Undefined
+
+    -- Manipulation
+    at      :: {k -> e}, k -> Maybe e
+    put!    :: {k -> e}, k, e -> {k -> e}
+    remove! :: {k -> e}, k -> {k -> e}
+    clear!  :: {k -> e} -> {k -> e}
+
+    -- Inspection
+    size     :: {k -> e} -> Number
+    count    :: {k -> e}, e -> Number
+    empty?   :: {k -> e} -> Bool
+    has_key? :: {k -> e}, k -> Bool
+
+    -- Decomposition
+    keys   :: {k -> e} -> [k]
+    values :: {k -> e} -> [e]
+    items  :: {k -> e} -> [(k, e)]
+
+    -- Folding
+    reduce :: {k -> e}, initial:Any, (acc:Any, e, k -> Any) -> Any
+    reduce :: {k -> e}, (acc:Any, e, k -> Any) -> Any
+    every  :: {k -> e}, (e, k, {k -> e} -> Bool) -> Bool
+    some   :: {k -> e}, (e, k, {k -> e} -> Bool) -> Bool
+    filter :: {k -> e}, (e, k, {k -> e} -> Bool) -> {k -> e}
+    map    :: {k -> e}, (e, k, {k -> e} -> e) -> {k -> e}
+    
+
+  Module dictionary
+    Object dictionary <| Object, {Any -> Any}
+
+  
+  Module string
+    -- Building
+    repeat      :: String, Number -> String
+    concatenate :: String... -> String
+    trim        :: String -> String
+    trim_left   :: String -> String
+    trim_right  :: String -> String
+
+    -- Inspection
+    starts_with? :: String, String -> Bool
+    ends_with?   :: String, String -> Bool
+    has?         :: String, String -> String
+    count        :: String, String -> String
+
+    -- Case folding / mappings
+    upcase     :: String -> String
+    downcase   :: String -> String
+    capitalise :: String -> String
+    dasherise  :: String -> String
+    camelise   :: String -> String
+
+    -- Searching
+    find      :: String, String -> Number
+    find_last :: String, String -> Number
+
+    -- Slicing
+    slice :: String, Number, Number -> String
+    slice :: String, Number -> String
+    slice :: String -> String
+
+
+    split  :: String, String, Number -> [String]
+    format :: String, {String -> String | (a... -> String)} -> String
+    
+
+Package flow-control
+  Module promise
+    bind          :: @this:Promise, Any... -> this
+    fail          :: @this:Promise, Any... -> this
+    timeout       :: @this:Promise, Number -> this
+    clear_timeout :: @this:Promise -> this
+    when          :: @this:Promise, String, Fun -> this
+    then          :: @this:Promise, Fun -> this
+    ok            :: @this:Promise, Fun -> this
+    failed        :: @this:Promise, Fun -> this
+    timeouted     :: @this:Promise, Fun -> this
+
+  Module events
+    Object event
+      handle :: @this:Event -> this
+      halt   :: @this:Event -> this
+      bubble :: @this:Event -> this
+
+    Object handler
+      exec :: Event, Any... -> Any
+      
+  
+    Object eventful
+      on!     :: @Eventful, String, Fun -> Handler
+      once!   :: @Eventful, String, Fun -> Handler
+      trigger :: @Eventful, String, Any... -> Event
+      remove! :: @Eventful, String, Handler -> [Handler]  # fine-grained
+      remove! :: @Eventful, String -> [Handler]           # all handlers for event
+      remove! :: @Eventful, Handler -> [Handler]          # handler from all events
+      clear!  :: @Eventful, -> [Handler]
+
+
+  Module observable
+    Object observable <| Eventful
+      get :: @Observable, String -> a
+      set :: @Observable, String, a -> a
+      tap :: @Observable, String, Fun -> Handler
