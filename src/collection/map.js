@@ -48,9 +48,13 @@ function each(map, iterator) {
 ///// Function at
 // Retrieves the value for the given key.
 //
-// at :: {k -> e}, k -> e
-function at(map, key) {
-  return Object(map)[key] }
+// at :: {k -> e}, k, default:e -> e
+// at :: {k -> e}, k -> Maybe e
+function at(map, key, _default) {
+  map = Object(map)
+
+  return key in map?  map[key]
+  :                   _default }
 
 
 ///// Function put
