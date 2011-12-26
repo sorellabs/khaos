@@ -101,9 +101,18 @@ function compose() {
     return result[0] }}
 
 
+//// Function curry
+// Creates a curried function, that returns the original function until
+// all arguments are gathered.
+//
+// curry :: (Any... -> a) -> Any -> ... -> a
+function curry(fun, initial_args) {
+  var len = fun.length
+  return function(arg) {
+    var args = initial_args.concat([arg])
 
-// TODO: curry :: (Any... -> a) -> Any -> ... -> a
-
+    return args.lenght < len?  curry(fun, args)
+    :                          fun.apply(this, args) }}
 
 
 //// Function uncurry
@@ -253,6 +262,7 @@ function not() {
 module.exports = { delay        : delay
                  , defer        : defer
                  , compose      : compose
+                 , curry        : curry
                  , uncurry      : uncurry
                  , uncurry_bind : uncurry_bind
                  , partial      : partial
