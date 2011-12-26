@@ -22,6 +22,8 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /// Module khaos.collection.map
+
+//// - Aliases
 var _keys        = Object.keys
   , clone        = Object.create
   , proto        = Object.getPrototypeOf
