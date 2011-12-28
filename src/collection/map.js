@@ -78,7 +78,7 @@ function remove(map, key) {
 ///// Function clear
 // Removes all key/value pairs from the map.
 //
-// clear :: {k -> e} -> {k -> e}
+// clear :: {k -> e} -> {}
 function clear(map) {
   each(map, function(value, key){
               delete map[key] })
