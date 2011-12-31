@@ -195,12 +195,12 @@ function when(fun, predicate) {
 
 
 
-//// Function identity
-// The identity function.
+//// Function constant
+// The constant function.
 //
-// identity :: a -> () -> a
-function identity(x) {
-  return function Identity() {
+// constant :: a -> () -> a
+function constant(x) {
+  return function Constant() {
     return x }}
 
 
@@ -261,7 +261,7 @@ module.exports = { delay        : delay
                  , once         : once
                  , until        : until
                  , when         : when
-                 , identity     : identity
+                 , constant     : constant
                  , or           : or
                  , and          : and
                  , not          : not
