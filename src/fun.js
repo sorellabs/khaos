@@ -245,17 +245,11 @@ function and() {
 //
 // not :: Fun... -> Any... -> Bool
 function not() {
-  var funs, len
-  funs = arguments
-  len  = funs.length
+  var funs
+  funs = and.apply(null, arguments)
 
   return function _not() {
-    var i, result
-    for (i = 0; i < len; ++i) {
-      result = funs[i].apply(this, arguments)
-      if (!result) return false }
-
-    return true }}
+    return !funs.apply(this, arguments) }}
 
 
 //// - Exports
