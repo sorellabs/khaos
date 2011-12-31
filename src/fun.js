@@ -204,6 +204,13 @@ function constant(x) {
     return x }}
 
 
+//// Function identity
+// The identity function.
+//
+// identity :: a -> a
+function identity(x) {
+  return x }
+
 
 //// Function or
 // Returns the value of the first truthy function.
@@ -262,6 +269,7 @@ module.exports = { delay        : delay
                  , until        : until
                  , when         : when
                  , constant     : constant
+                 , identity     : identity
                  , or           : or
                  , and          : and
                  , not          : not
