@@ -91,19 +91,19 @@ function extend(target) {
   return fast_extend.apply(null, args) }
 
 
-//// Function clone
+//// Function derive
 // Creates a new object inheriting from the given prototype and extends
 // the new instance with the provided mixins.
 //
-// clone :: Object, (Object | DataObject)... -> Object
-function clone(proto) {
+// derive :: Object, (Object | DataObject)... -> Object
+function derive(proto) {
   return fast_extend(inherit(proto), slice.call(arguments, 1)) }
 
 
-//// Object Clonable
+//// Object Base
 // The root object for basing all the OOP code. Provides the previous
 // primitive combinators in an easy and OOP-way.
-var Clonable = {
+var Base = {
 
   ///// Function make
   // Constructs new instances of the object the function is being
@@ -114,27 +114,27 @@ var Clonable = {
   //
   // make :: Any... -> Object
   make:
-  function make() {
+  function _make() {
     var result = inherit(this)
     if (typeof result.init == 'function')
       result.init.apply(result, slice.call(arguments))
 
     return result }
 
-  ///// Function clone
+  ///// Function derive
   // Constructs a new object that inherits from the object this function
   // is being applied to, and extends it with the provided mixins.
   //
-  // clone :: (Object | DataObject)... -> Object
-, clone:
-  function clone() {
+  // derive :: (Object | DataObject)... -> Object
+, derive:
+  function _derive() {
     return fast_extend(inherit(this), arguments) }}
 
 
 //// -Exports
 module.exports = { extend   : extend
-                 , clone    : clone
-                 , Clonable : Clonable
+                 , derive   : derive
+                 , Base     : Base
 
                  , internal : { data_obj_p    : data_obj_p
                               , fast_extend   : fast_extend

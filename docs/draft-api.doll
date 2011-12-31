@@ -79,10 +79,10 @@ Package functional
 Package object
   Module core
     extend :: Object, (Object | DataObject)... -> Object
-    clone  :: Object, (Object | DataObject)... -> Object
-    Object clonable
-      make  :: @Clonable, Any... -> Object
-      clone :: @Clonable, Any... -> Object
+    derive :: Object, (Object | DataObject)... -> Object
+    Object Base
+      clone  :: @Clonable, Any... -> Object
+      derive :: @Clonable, Any... -> Object
       
   Module traits
 
@@ -220,8 +220,8 @@ Package collection
     reversed :: [a] -> [a]
 
     -- Searching
-    find      :: [a], a -> Number
-    find_last :: [a], a -> Number
+    find      :: [a], (a, UInt32, [a] -> Bool) -> Maybe UInt32
+    find_last :: [a], (a, UInt32, [a] -> Bool) -> Maybe UInt32
     
 
     -- Folding
@@ -270,6 +270,7 @@ Package collection
     each :: {k -> e}, (e, k, {k -> e}-> Any) -> Undefined
 
     -- Manipulation
+    at      :: {k -> e}, k, default:e -> e
     at      :: {k -> e}, k -> Maybe e
     put!    :: {k -> e}, k, e -> {k -> e}
     remove! :: {k -> e}, k -> {k -> e}

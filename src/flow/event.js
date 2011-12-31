@@ -24,8 +24,8 @@
 /// Module khaos.flow.event
 
 //// - Dependencies
-var Clonable = require('../object').Clonable
-var type     = require('../type')
+var Base = require('../object').Base
+var type = require('../type')
 
 //// - Aliasing
 var keys       = Object.keys
@@ -137,13 +137,13 @@ function listeners(eventful, type) {
 //          , "halted"  -> Bool
 //          , "handled" -> Bool
 //          }
-var Event = Clonable.clone({
+var Event = Base.derive({
   ///// Function init
   // Initialises an Event's instance
   //
   // init :: @this:Object, String, Eventful -> this
   init:
-  function init(type, target) {
+  function _init(type, target) {
     this.type    = type
     this.target  = target
     this.current = target
@@ -157,7 +157,7 @@ var Event = Clonable.clone({
   //
   // halt :: @this:Eventful, () -> this
 , halt:
-  function halt() {
+  function _halt() {
     this.halted = true
     this.handle()
     return this }
@@ -168,7 +168,7 @@ var Event = Clonable.clone({
   //
   // handle :: @this:Eventful, () -> this
 , handle:
-  function handle() {
+  function _handle() {
     this.handled = true
     return this }
 
@@ -180,7 +180,7 @@ var Event = Clonable.clone({
   //
   // bubble :: @this:Eventful, () -> this
 , bubble:
-  function bubble(args) {
+  function _bubble(args) {
     if (this.current) {
       this.current = this.current.parent
       this.current.trigger.apply(this.current, args) }
@@ -197,13 +197,13 @@ var Event = Clonable.clone({
 // Handler :: { "fun"    -> Fun
 //            , "filter" -> Filter
 //            }
-var Handler = Clonable.clone({
+var Handler = Base.derive({
   ///// Function init
   // Initialises a Handler's instance.
   //
   // init :: @this:Object, Fun, Filter -> this
   init:
-  function init(fun, filter) {
+  function _init(fun, filter) {
     this.fun    = fun
     this.filter = filter
     return this }
@@ -215,7 +215,7 @@ var Handler = Clonable.clone({
   //
   // can_exec_p :: Eventful -> Bool
 , can_exec_p:
-  function can_exec_p(origin) {
+  function _can_exec_p(origin) {
     var filter = this.filter
 
     return !filter?                true
@@ -230,7 +230,7 @@ var Handler = Clonable.clone({
   //
   // exec :: Event, Any... -> Any
 , exec:
-  function exec(event) {
+  function _exec(event) {
     var origin = event.target
 
     return this.can_exec_p(origin)?  this.fun.apply(origin, arguments)
@@ -260,7 +260,7 @@ var Handler = Clonable.clone({
 // Eventful :: { "listeners" -> { String -> [Handler] }
 //             , "parent"    -> Eventful
 //             }
-var Eventful = Clonable.clone({
+var Eventful = Base.derive({
   listeners: {}
 
   ///// Function init
@@ -268,7 +268,7 @@ var Eventful = Clonable.clone({
   //
   // init :: @this:Object, Eventful? -> this
 , init:
-  function init(parent) {
+  function _init(parent) {
     this.listeners = {}
     this.parent    = parent
     return this }
@@ -280,7 +280,7 @@ var Eventful = Clonable.clone({
   // on :: @Eventful, String, Fun, Filter? -> Handler
   // on :: @Eventful, String, a:Handler, Filter? -> a
 , on:
-  function on(event, handler, filter) {
+  function _on(event, handler, filter) {
     handler = make_handler(handler, filter)
     listeners(this, event).push(handler)
     return handler }
@@ -292,7 +292,7 @@ var Eventful = Clonable.clone({
   // once :: @Eventful, String, Fun, Filter? -> Handler
   // once :: @Eventful, String, a:Handler, Filter? -> a
 , once:
-  function once(event, handler, filter) {
+  function _once(event, handler, filter) {
     var fun
     handler     = this.on(event, handler, filter)
     fun         = handler.fun
@@ -317,7 +317,7 @@ var Eventful = Clonable.clone({
   //
   // remove :: @this:Eventful, String?, Handler? -> this
 , remove:
-  function remove(event, handler) {
+  function _remove(event, handler) {
     var self = this
 
     event?  this.listeners[event] = all_but(handler)
@@ -342,7 +342,7 @@ var Eventful = Clonable.clone({
   // trigger :: @this:Eventful, String, Any... -> this
   // trigger :: @this:Eventful, Event, Any... -> this
 , trigger:
-  function trigger(event) {
+  function _trigger(event) {
     event        = make_event(event, this)
     arguments[0] = event
 

@@ -24,7 +24,7 @@
 /// Module khaos.flow.promise
 
 //// - Dependencies
-var Clonable = require('../object').Clonable
+var Base = require('../object').Base
 
 
 
@@ -67,13 +67,13 @@ function get_queue(promise, event) {
 //            , "timer"         -> TimerID
 //            , "default_event" -> String
 //            }
-var Promise = Clonable.clone({
+var Promise = Base.derive({
   ///// Function init
   // Initialises an instance of a Promise.
   //
   // init! :: @this:Object -> this
   init:
-  function init() {
+  function _init() {
     this.callbacks     = {}
     this.flush_queue   = []
     this.value         = null
@@ -87,7 +87,7 @@ var Promise = Clonable.clone({
   //
   // add! :: @this:Promise, String?, Fun -> this
 , add:
-  function add(event, callback) {
+  function _add(event, callback) {
     sanitise_arguments()
     this.default_event = event
       
@@ -121,7 +121,7 @@ var Promise = Clonable.clone({
   //
   // flush :: @this:Promise, String -> this
 , flush:
-  function flush(event) {
+  function _flush(event) {
     if (!this.value)
       if (event)  self.flush_queue.push(event)
     else {
@@ -142,7 +142,7 @@ var Promise = Clonable.clone({
   //
   // done :: @this:Promise, [Any] -> this
 , done:
-  function done(values) {
+  function _done(values) {
     if (!this.value) {
       this.clear_timer()
       this.flush('done')
@@ -156,7 +156,7 @@ var Promise = Clonable.clone({
   //
   // fail :: @this:Promise, Any -> this
 , fail:
-  function fail(error) {
+  function _fail(error) {
     return this.flush('failed').done([error]) }
 
   ///// Function bind
@@ -164,7 +164,7 @@ var Promise = Clonable.clone({
   //
   // bind :: @this:Promise, Any... -> this
 , bind:
-  function bind() {
+  function _bind() {
     return this.flush('ok').done(arguments) }
 
   ///// Function forget
@@ -172,7 +172,7 @@ var Promise = Clonable.clone({
   //
   // forget :: @this:Promise -> this
 , forget:
-  function forget() {
+  function _forget() {
     return this.flush('forgotten').fail(forgotten) }
 
   ///// Function timeout
@@ -180,7 +180,7 @@ var Promise = Clonable.clone({
   //
   // timeout :: @this:Promise, Number -> this
 , timeout:
-  function timeout(delay) {
+  function _timeout(delay) {
     this.clear_timer()
     this.timer = setTimeout(function() {
       this.flush('timeouted').fail(timeouted)
@@ -194,7 +194,7 @@ var Promise = Clonable.clone({
   //
   // clear_timer :: @this:Promise -> this
 , clear_timer:
-  function clear_timer() {
+  function _clear_timer() {
     clearTimeout(this.timer)
     this.timer = null
     return this }
@@ -205,7 +205,7 @@ var Promise = Clonable.clone({
   //
   // ok :: @this:Promise, Fun -> this
 , ok:
-  function ok(fun) {
+  function _ok(fun) {
     return this.add('ok', fun) }
 
   ///// Function failed
@@ -213,7 +213,7 @@ var Promise = Clonable.clone({
   //
   // failed :: @this:Promise, Fun -> this
 , failed:
-  function failed(fun) {
+  function _failed(fun) {
     return this.add('failed', fun) }
 
   ///// Function timeouted
@@ -221,7 +221,7 @@ var Promise = Clonable.clone({
   //
   // timeouted :: @this:Promise, Fun -> this
 , timeouted:
-  function timeouted(fun) {
+  function _timeouted(fun) {
     return this.add('timeouted', fun) }
 
   ///// Function forgotten
@@ -230,7 +230,7 @@ var Promise = Clonable.clone({
   //
   // forgotten :: @this:Promise, Fun -> this
 , forgotten:
-  function forgotten(fun) {
+  function _forgotten(fun) {
     return this.add('forgotten', fun) }
 })
 
