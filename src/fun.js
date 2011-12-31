@@ -243,13 +243,10 @@ function and() {
 //// Function not
 // Returns a new predicate that negates the given one.
 //
-// not :: Fun... -> Any... -> Bool
-function not() {
-  var funs
-  funs = and.apply(null, arguments)
-
+// not :: Fun -> Any... -> Bool
+function not(fun) {
   return function _not() {
-    return !funs.apply(this, arguments) }}
+    return !fun.apply(this, arguments) }}
 
 
 //// - Exports
