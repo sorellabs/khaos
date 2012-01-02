@@ -117,7 +117,7 @@ var Base = {
   function _make() {
     var result = inherit(this)
     if (typeof result.init == 'function')
-      result.init.apply(result, slice.call(arguments))
+      result.init.apply(result, arguments)
 
     return result }
 
