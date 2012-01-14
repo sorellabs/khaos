@@ -216,7 +216,7 @@ function empty_p(sequence) {
 
 ///// Function has_p
 // Does the sequence have the given value?
-// 
+//
 // has_p :: [a], a -> Bool
 function has_p(sequence, value) {
   return find(sequence, value) != -1 }
@@ -312,7 +312,7 @@ function reverse(sequence) {
 function find(sequence, predicate) {
   var result = undefined
   some(sequence, function(value, key) {
-    return predicate(value, key, sequence)?  (result = key), true
+    return predicate(value, key, sequence)?  (result = key, true)
     :                                        false })
 
   return result }
