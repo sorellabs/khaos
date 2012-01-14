@@ -48,7 +48,7 @@ describe('Module: fun', function() {
       function take(x) { return function() {
         arr[0].should.equal(x)
         arr.shift() }}})
-    
+
     it('- Should pass the result as first argument', function() {
       fun.compose(double, squared, even_p)(2)
 
@@ -60,10 +60,6 @@ describe('Module: fun', function() {
         return x * x }
       function even_p(x) {
         (x % 2).should.equal(0) }})
-
-    it('- Should concat other given arguments', function() {
-      fun.compose(arglen)(1, 2, 3).should.equal(3)
-      fun.compose(arglen, arglen)(1, 2, 3).should.equal(4) })
   })
-                
+
 })

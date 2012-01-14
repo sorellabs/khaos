@@ -24,7 +24,7 @@ describe('Package: collection', function() {
       keys.splice(i, 1)
       values.splice(i, 1)
       return [key, value] }
-      
+
 
     beforeEach(function() {
       keys   = ['b', 'd']
@@ -43,8 +43,8 @@ describe('Package: collection', function() {
       it('- Should pass (value, key, map) to the iterator', function() {
         map.each(data, function(v,k,m) {
           m.should.equal(data)
-          keys.should.contain(k)
-          values.should.contain(v) })})
+          keys.should.include(k)
+          values.should.include(v) })})
     })
 
     describe('at', function() {
@@ -137,7 +137,7 @@ describe('Package: collection', function() {
 
       it('- Should use the first key/value pair as initial value if one isnt given', function() {
         map.reduce(data, function(acc, value) {
-          values.should.contain(acc) })})
+          values.should.include(acc) })})
     })
 
     describe('every', function() {
@@ -145,7 +145,7 @@ describe('Package: collection', function() {
         map.every(data, check_call).should.be.true
         keys.should.be.empty
         values.should.be.empty })
-      
+
       it('- Should short-circuit', function() {
         var x = true
         var c = 0
