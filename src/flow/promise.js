@@ -1,4 +1,4 @@
-/// promise.js --- Async Future/Promises 
+/// promise.js --- Async Future/Promises
 //
 // Copyright (c) 2011 Quildreen Motta
 //
@@ -24,7 +24,7 @@
 /// Module khaos.flow.promise
 
 //// - Dependencies
-var Base = require('../object').Base
+var Base = require('boo').Base
 
 
 
@@ -90,7 +90,7 @@ var Promise = Base.derive({
   function _add(event, callback) {
     sanitise_arguments()
     this.default_event = event
-      
+
     if (this.value)  invoke_callback(this)
     else             add_callback(this)
 
