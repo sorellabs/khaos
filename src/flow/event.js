@@ -24,7 +24,7 @@
 /// Module khaos.flow.event
 
 //// - Dependencies
-var Base = require('../object').Base
+var Base = require('boo').Base
 var type = require('../type')
 
 //// - Aliasing
