@@ -82,12 +82,12 @@ var Promise = Base.derive({
     return this }
 
 
-  ///// Function add
+  ///// Function on
   // Adds a callback to the given event.
   //
-  // add! :: @this:Promise, String?, Fun -> this
-, add:
-  function _add(event, callback) {
+  // on! :: @this:Promise, String?, Fun -> this
+, on:
+  function _on(event, callback) {
     sanitise_arguments()
     this.default_event = event
 
@@ -206,7 +206,7 @@ var Promise = Base.derive({
   // ok :: @this:Promise, Fun -> this
 , ok:
   function _ok(fun) {
-    return this.add('ok', fun) }
+    return this.on('ok', fun) }
 
   ///// Function failed
   // Registers a callback for when the promise fails to be fulfilled.
@@ -214,7 +214,7 @@ var Promise = Base.derive({
   // failed :: @this:Promise, Fun -> this
 , failed:
   function _failed(fun) {
-    return this.add('failed', fun) }
+    return this.on('failed', fun) }
 
   ///// Function timeouted
   // Registers a callback for when the promise fails by timing out.
@@ -222,7 +222,7 @@ var Promise = Base.derive({
   // timeouted :: @this:Promise, Fun -> this
 , timeouted:
   function _timeouted(fun) {
-    return this.add('timeouted', fun) }
+    return this.on('timeouted', fun) }
 
   ///// Function forgotten
   // Registers a callback for when the promise fails by being
@@ -231,7 +231,7 @@ var Promise = Base.derive({
   // forgotten :: @this:Promise, Fun -> this
 , forgotten:
   function _forgotten(fun) {
-    return this.add('forgotten', fun) }
+    return this.on('forgotten', fun) }
 })
 
 
