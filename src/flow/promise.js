@@ -26,6 +26,8 @@
 //// - Dependencies
 var Base = require('boo').Base
 
+var slice = [].slice
+
 
 
 //// Data FORGOTTEN
@@ -126,11 +128,11 @@ var Promise = Base.derive({
       if (event)  self.flush_queue.push(event)
     else {
       var callbacks, i, len
-      callbacks = get_queue(promise, event)
+      callbacks = get_queue(this, event)
       len       = callbacks.length
 
       for (i = 0; i < len; ++i)
-        callbacks[i].apply(promise, promise.value)
+        callbacks[i].apply(this, this.value)
 
       callbacks.length = 0
       callbacks.flushed = true }
@@ -173,7 +175,7 @@ var Promise = Base.derive({
   // forget :: @this:Promise -> this
 , forget:
   function _forget() {
-    return this.flush('forgotten').fail(forgotten) }
+    return this.flush('forgotten').fail(FORGOTTEN) }
 
   ///// Function timeout
   // Schedules the promise to fail after a given number of seconds.
@@ -183,7 +185,7 @@ var Promise = Base.derive({
   function _timeout(delay) {
     this.clear_timer()
     this.timer = setTimeout(function() {
-      this.flush('timeouted').fail(timeouted)
+      this.flush('timeouted').fail(TIMEOUTED)
     }.bind(this), delay * 1000)
 
     return this }

@@ -117,8 +117,8 @@ function searchable_p(subject) {
 //
 // listeners! :: Eventful, String -> [Handler]
 function listeners(eventful, type) {
-  return eventful.listeners[event]
-  ||    (eventful.listeners[event] = []) }
+  return eventful.listeners[type]
+  ||    (eventful.listeners[type] = []) }
 
 
 
