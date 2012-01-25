@@ -23,6 +23,9 @@
 
 /// Module khaos.collection.string
 
+//// -- Aliases --------------------------------------------------------
+var __trim = "".trim
+
 
 
 //// -- Building -------------------------------------------------------
@@ -93,12 +96,12 @@ function capitalise(string, all_words) {
   return downcase(string).replace(re, upcase) }
 
 function dasherise(string) {
-  return replace(trim(string), /\s+/g, '-') }
+  return trim(string).replace(/\s+/g, '-') }
 
 function camelise(string) {
   var re = /[\s\-_]+(\w)/g
 
-  return downcase(str).replace(re, function(match, letter) {
+  return downcase(string).replace(re, function(match, letter) {
     return upcase(letter) })}
 
 
