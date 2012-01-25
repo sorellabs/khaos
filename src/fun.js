@@ -27,7 +27,7 @@
 // JavaScript.
 
 var _slice = [].slice
-  , node_p = 'process' in this
+var node_p = 'process' in this
 
 
 //// Function noop
@@ -62,9 +62,8 @@ function defer(fun) {
 // Simulates a zero-timeout for browsers, using postMessage. Based on
 // Mozilla's own David Baron code.
 var deferred_timeout = ('postMessage' in this) && function() {
-  var timeouts, message
-  timeouts = []
-  message  = 'khaos-deferred-application'
+  var timeouts = []
+  var message  = 'khaos-deferred-application'
 
   window.addEventListener('message', handle_message, true)
 
@@ -88,13 +87,12 @@ var deferred_timeout = ('postMessage' in this) && function() {
 //
 // compose :: Fun... -> Fun
 function compose() {
-  var funs, len
-  funs = _slice.call(arguments)
-  len  = funs.length
+  var funs = _slice.call(arguments)
+  var len  = funs.length
 
   return function _composition() {
-    var result, i
-    result = arguments
+    var i
+    var result = arguments
     for (i = 0; i < len; ++i)
       result = [funs[i].apply(this, result)]
 
@@ -112,7 +110,7 @@ function curry(fun, initial_args) {
     var args = initial_args.concat([arg])
 
     return args.lenght < len?  curry(fun, args)
-    :                          fun.apply(this, args) }}
+    :      /* otherwise */     fun.apply(this, args) }}
 
 
 //// Function uncurry
@@ -217,9 +215,8 @@ function identity(x) {
 //
 // or :: (Any... -> a) -> Any... -> a
 function or() {
-  var funs, len
-  funs = arguments
-  len  = funs.length
+  var funs = arguments
+  var len  = funs.length
 
   return function _or() {
     var i, result
@@ -234,9 +231,8 @@ function or() {
 //
 // and :: (Any... -> a) -> Any... -> a
 function and() {
-  var funs, len
-  funs = arguments
-  len  = funs.length
+  var funs = arguments
+  var len  = funs.length
 
   return function _and() {
     var i, result
@@ -256,7 +252,7 @@ function not(fun) {
     return !fun.apply(this, arguments) }}
 
 
-//// - Exports
+//// -- Exports --------------------------------------------------------
 module.exports = { delay        : delay
                  , defer        : defer
                  , compose      : compose
