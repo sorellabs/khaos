@@ -204,10 +204,10 @@ function some(map, predicate) {
 //
 // filter :: {k -> e}, (e, k, {k -> e} -> Bool) -> {k -> e}
 function filter(map, predicate) {
-  var i, result, key, props
-  props  = keys(map)
-  i      = props.length
-  result = clone(proto(map))
+  var key
+  var props  = keys(map)
+  var i      = props.length
+  var result = clone(proto(map))
   while (i--) {
     key = props[i]
     if (predicate(map[key], key, map))  result[key] = map[key] }
@@ -223,10 +223,10 @@ function filter(map, predicate) {
 //
 // map :: {k -> e}, (e, k, {k -> e} -> e) -> {k -> e}
 function map(map, mapper) {
-  var i, result, key, props
-  props  = keys(map)
-  i      = props.length
-  result = clone(proto(map))
+  var key
+  var props  = keys(map)
+  var i      = props.length
+  var result = clone(proto(map))
   while (i--) {
     key = props[i]
     result[key] = mapper(map[key], key, map) }
