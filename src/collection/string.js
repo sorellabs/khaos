@@ -60,16 +60,6 @@ function ends_with_p(string, what) {
 function size(string) {
   return string.length }
 
-function count(string, character) {
-  // TODO:
-}
-
-function empty_p(string) {
-  return string === '' }
-
-function has_p(string, what) {
-  return string.indexOf(what) != -1 }
-
 function count(string, what) {
   var pos, result
   result = 0
@@ -79,6 +69,12 @@ function count(string, what) {
     else            break }
 
   return result }
+
+function empty_p(string) {
+  return string === '' }
+
+function has_p(string, what) {
+  return string.indexOf(what) != -1 }
 
 
 
@@ -162,3 +158,36 @@ function compare(left, right, foldcase) {
 
 function equal_p(left, right, foldcase) {
   return !compare(left, right, foldcase) }
+
+
+
+//// -- Exports --------------------------------------------------------
+module.exports = { repeat        : repeat
+                 , concatenate   : concatenate
+                 , trim          : trim
+                 , trim_left     : trim_left
+                 , trim_right    : trim_right
+                 , starts_with_p : starts_with_p
+                 , ends_with_p   : ends_with_p
+                 , size          : size
+                 , count         : count
+                 , empty_p       : empty_p
+                 , has_p         : has_p
+                 , upcase        : upcase
+                 , downcase      : downcase
+                 , capitalise    : capitalise
+                 , dasherise     : dasherise
+                 , camelise      : camelise
+                 , find          : find
+                 , first         : first
+                 , rest          : rest
+                 , last          : last
+                 , but_last      : but_last
+                 , slice         : slice
+                 , take          : take
+                 , drop          : drop
+                 , split         : split
+                 , format        : format
+                 , compare       : compare
+                 , equal_p       : equal_p
+                 }
