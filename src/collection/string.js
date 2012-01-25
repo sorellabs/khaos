@@ -87,8 +87,8 @@ function downcase(string) {
   return string.toLowerCase() }
 
 function capitalise(string, all_words) {
-  var re = all_words?  /\b\w/g
-         :             /\b\w/
+  var re = all_words?       /\b\w/g
+         : /* otherwise */  /\b\w/
 
   return downcase(string).replace(re, upcase) }
 
@@ -155,7 +155,7 @@ function compare(left, right, foldcase) {
 
   return left < right?   -1
   :      left === right?  0
-  :      left > right?    1 }
+  :      /* otherwise */  1 }
 
 function equal_p(left, right, foldcase) {
   return !compare(left, right, foldcase) }
