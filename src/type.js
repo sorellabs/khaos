@@ -38,14 +38,18 @@
 // prototypical object orientation nature.
 //
 // :see also:
-//   :mod:`interface` — structural type checking module
+//   - `khaos.interface' — structural type checking module
 
 
-// Aliases
+//// -- Aliases --------------------------------------------------------
 var _class = {}.toString
 
 
-//// Function is_p
+
+
+//// -- Generic checkers -----------------------------------------------
+
+///// Function is_p
 // Checks if an object inherits from the given prototype.
 //
 // is_p :: Any, Object | Fun -> Bool
@@ -54,12 +58,12 @@ function is_p(subject, prototype) {
   :      /* plain Object? */  prototype.isPrototypeOf(subject) }
 
 
-//// Function name
-// Returns the internal ``[[Class]]`` property of the object.
+///// Function name
+// Returns the internal `[[Class]]` property of the object.
 //
-// Since applying functions to null/undefined in non-strict
-// mode would yield Global (we don't want that!), we fix it by manually
-// returning the internal ``[[Class]]`` for such edge cases.
+// Since applying functions to `null`/`undefined` in non-strict
+// mode would yield `Global` (we don't want that!), we fix it by manually
+// returning the internal `[[Class]]` for such edge cases.
 //
 // name :: Any -> String
 function name(subject) {
@@ -68,56 +72,59 @@ function name(subject) {
   :                         'Undefined' }
 
 
-//// Function string_p
-// Checks if an object is a ``String``
+
+//// -- Specialised checkers -------------------------------------------
+
+///// Function string_p
+// Checks if an object is a `String`.
 //
 // string_p :: Any -> Bool
 function string_p(subject) {
   return name(subject) == 'String' }
 
 
-//// Function number_p
-// Checks if an object is a ``Number``
+///// Function number_p
+// Checks if an object is a `Number`.
 //
 // number_p :: Any -> Bool
 function number_p(subject) {
   return name(subject) == 'Number' }
 
 
-//// Function date_p
-// Checks if an object is a ``Date``
+///// Function date_p
+// Checks if an object is a `Date`.
 //
 // date_p :: Any -> Bool
 function date_p(subject) {
   return name(subject) == 'Date' }
 
 
-//// Function regexp_p
-// Checks if an object is a ``RegExp``
+///// Function regexp_p
+// Checks if an object is a `RegExp`.
 //
 // regexp_p :: Any -> Bool
 function regexp_p(subject) {
   return name(subject) == 'RegExp' }
 
 
-//// Function fun_p
-// Checks if an object is a ``Function``
+///// Function fun_p
+// Checks if an object is a `Function`.
 //
 // fun_p :: Any -> Bool
 function fun_p(subject) {
   return name(subject) == 'Function' }
 
 
-//// Function bool_p
-// Checks if an object is a ``Boolean``
+///// Function bool_p
+// Checks if an object is a `Boolean`.
 //
 // bool_p :: Any -> Bool
 function bool_p(subject) {
   return name(subject) == 'Boolean' }
 
 
-//// Function object_p
-// Checks if an object is an ``Object``.
+///// Function object_p
+// Checks if an object is an `Object`.
 //
 // object_p :: Any -> Bool
 function object_p(subject) {
@@ -125,7 +132,7 @@ function object_p(subject) {
 
 
 //// Function primitive_p
-// Checks if the subject is a primitive.
+// Checks if the `subject' is a primitive.
 //
 // primitive_p :: Any -> Bool
 function primitive_p(subject) {
@@ -133,7 +140,7 @@ function primitive_p(subject) {
 
 
 //// Function undefined_p
-// Checks if an object is undefined.
+// Checks if an object is `undefined`.
 //
 // undefined_p :: Any -> Bool
 function undefined_p(subject) {
@@ -148,7 +155,7 @@ function callable_p(subject) {
   return typeof subject == 'function' }
 
 
-//// - Exports
+//// -- Exports --------------------------------------------------------
 module.exports = { is_p        : is_p
                  , name        : name
                  , array_p     : Array.isArray
