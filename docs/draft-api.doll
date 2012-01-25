@@ -46,7 +46,7 @@ Package functional
     and :: (Fun -> a)... -> Fun -> a
     not :: (Fun -> a) -> Fun -> Bool
   
-
+  
   -- Dynamic multiple dispatching on Interfaces
   Module dispatch
     Object dispatching <| Base
@@ -67,12 +67,13 @@ Package object
       make   :: @Base, Any... -> Object
       derive :: @Base, Any... -> Object
       
-
+  
   -- Better multiple inheritance handling with some overhead
   Module traits
     -- :TODO:
 
 
+
 -- Type checking facilities
 Package types
 
@@ -94,13 +95,13 @@ Package types
     undefined  :: Any -> Bool
     callable?  :: Any -> Bool
 
-
+  
   -- Structural matching
   Module interface
     make     :: Object -> Interface
     matches? :: Interface, Object -> Bool
 
-
+  
   -- First-class pattern matching
   Module pattern
     -- :TODO:
@@ -114,7 +115,7 @@ Package collection
   Module iterators
     -- :TODO:
 
-    
+      
   -- Lazy and generic operations on iterators
   Module lazy
     reduce :: Iterable, (acc:Any, val:e -> Any) -> Iterable
@@ -123,7 +124,7 @@ Package collection
     every  :: Iterable, (e, k -> Bool) -> Iterable
     some   :: Iterable, (e, k -> Bool) -> Iterable
     
-
+  
   -- Base sequence stuff
   Module sequence
     -- Iterating
@@ -180,7 +181,7 @@ Package collection
     map          :: [a], (a, UInt32, [a] -> a) -> [a]
 
     
-
+  
   Module set
     -- Iterating
     each :: {a}, (a, {a} -> Any) -> Undefined
@@ -214,7 +215,7 @@ Package collection
     difference   :: {a}, {a} -> {a}
     subset?      :: {a}, {a} -> Bool
 
-
+  
   Module map
     -- Iterating
     each :: {k -> e}, (e, k, {k -> e}-> Any) -> Undefined
@@ -249,11 +250,11 @@ Package collection
     filter :: {k -> e}, (e, k, {k -> e} -> Bool) -> {k -> e}
     map    :: {k -> e}, (e, k, {k -> e} -> e) -> {k -> e}
     
-
+  
   Module dictionary
     Object dictionary <| Object, {Any -> Any}
 
-
+  
   Module string
     -- Building
     repeat      :: String, Number -> String
@@ -316,7 +317,7 @@ Package flow-control
     failed        :: @this:Promise, Fun -> this
     timeouted     :: @this:Promise, Fun -> this
 
-
+  
   -- Event-driven programming
   Module events
     Object event
@@ -337,7 +338,7 @@ Package flow-control
       remove! :: @Eventful, Handler -> [Handler]          # handler from all events
       clear!  :: @Eventful, -> [Handler]
 
-
+  
   -- Model basis
   Module observable
     Object observable <| Eventful
