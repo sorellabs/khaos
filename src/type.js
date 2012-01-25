@@ -69,7 +69,7 @@ function is_p(subject, prototype) {
 function name(subject) {
   return subject != null?   _class.call(subject).slice(8, -1)
   :      subject === null?  'Null'
-  :                         'Undefined' }
+  :      /* otherwise */    'Undefined' }
 
 
 
