@@ -24,7 +24,8 @@
 /// Module khaos.collection.string
 
 
-//// - Building
+
+//// -- Building -------------------------------------------------------
 function repeat(string, times) {
   return times <= 0?      ''
   :      /* otherwise */  Array(times + 1).join(string) }
@@ -33,7 +34,8 @@ function concatenate() {
   return ''.concat.apply(null, arguments) }
 
 
-//// - Manipulating
+
+//// -- Manipulating ---------------------------------------------------
 function trim(string) {
   return __trim.call(string) }
 
@@ -44,7 +46,8 @@ function trim_right(string) {
   return string.replace(/\s+$/, '') }
 
 
-//// - Inspection
+
+//// -- Inspection -----------------------------------------------------
 function starts_with_p(string, what) {
   return string.slice(0, what.length) == what }
 
@@ -75,7 +78,8 @@ function count(string, what) {
   return result }
 
 
-//// - Case folding
+
+//// -- Case folding ---------------------------------------------------
 function upcase(string) {
   return string.toUpperCase() }
 
@@ -98,12 +102,15 @@ function camelise(string) {
     return upcase(letter) })}
 
 
-//// - Searching
+
+//// -- Searching ------------------------------------------------------
 function find(string, predicate) {
   // TODO:
 }
 
-//// - Slicing
+
+
+//// -- Slicing --------------------------------------------------------
 function first(string) {
   return string.charAt(0) }
 
@@ -128,17 +135,19 @@ function drop(string, size) {
 function split(string, predicate) {
   // TODO:
 }
-  
- 
-//// - FOrmatting
+
+
+ 
+//// -- Formatting -----------------------------------------------------
 function format(string, mappings) {
   mappings = mappings || {}
   return string.replace(/{(\\?:)([^}]+)}/g, function(match, mod, key) {
     return starts_with_p(mod, '\\')?  '{:' + key + '}'
-    :      /* else, not escaped */    mappings[key] })}
+    :      /* otherwise */            mappings[key] })}
 
 
-//// - Comparisons
+
+//// -- Comparisons ----------------------------------------------------
 function compare(left, right, foldcase) {
   if (foldcase) {
     left  = downcase(left)
@@ -150,4 +159,3 @@ function compare(left, right, foldcase) {
 
 function equal_p(left, right, foldcase) {
   return !compare(left, right, foldcase) }
-

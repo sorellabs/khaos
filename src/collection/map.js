@@ -23,28 +23,30 @@
 
 /// Module khaos.collection.map
 
-//// - Aliases
+//// -- Aliases --------------------------------------------------------
 var _keys        = Object.keys
-  , clone        = Object.create
-  , proto        = Object.getPrototypeOf
-  , has_own_prop = {}.hasOwnProperty
+var clone        = Object.create
+var proto        = Object.getPrototypeOf
+var has_own_prop = {}.hasOwnProperty
 
 
 
-//// - Traversable
+//// -- Traversable ----------------------------------------------------
+
 ///// Function each
 // Applies the iterator function to each key/value pair in the map.
 //
 // each :: {k -> e}, (e, k, {k -> e} -> Ignored) -> Undefined
 function each(map, iterator) {
-  var i, len, props
-  props = keys(map)
+  var i, len
+  var props = keys(map)
   for (i = 0, len = props.length; i < len; ++i)
     iterator(map[props[i]], props[i], map) }
 
 
 
-//// - Manipulation
+//// -- Manipulation ---------------------------------------------------
+
 ///// Function at
 // Retrieves the value for the given key.
 //
@@ -53,8 +55,8 @@ function each(map, iterator) {
 function at(map, key, _default) {
   map = Object(map)
 
-  return key in map?  map[key]
-  :                   _default }
+  return key in map?      map[key]
+  :      /* otherwise */  _default }
 
 
 ///// Function put
@@ -86,7 +88,8 @@ function clear(map) {
 
 
 
-//// - Inspection
+//// -- Inspection -----------------------------------------------------
+
 ///// Function size
 // Returns the number of key/value pairs in the map.
 //
@@ -108,12 +111,13 @@ function empty_p(map) {
 //
 // has_key_p :: {k -> e}, k -> Bool
 function has_key_p(map, key) {
-  return map != null?  has_own_prop.call(map, key)
-  :                    false }
+  return map != null?     has_own_prop.call(map, key)
+  :      /* otherwise */  false }
 
 
 
-//// - Decomposition
+//// -- Decomposition --------------------------------------------------
+
 ///// Function keys
 // Extracts the keys from the given map.
 //
@@ -141,7 +145,8 @@ function items(map) {
                            return acc })}
 
 
-//// - Folding
+//// -- Folding --------------------------------------------------------
+
 ///// Function reduce
 // Applies a function to each key/value pair in the map, returning the
 // accumulated value.
@@ -228,21 +233,22 @@ function map(map, mapper) {
   return result }
 
 
-/// -Exports
-module.exports = { each: each
-                 , at: at
-                 , put: put
-                 , remove: remove
-                 , clear: clear
-                 , size: size
-                 , empty_p: empty_p
-                 , has_key_p: has_key_p
-                 , keys: keys
-                 , values: values
-                 , items: items
-                 , reduce: reduce
-                 , every: every
-                 , some: some
-                 , filter: filter
-                 , map: map
+
+//// -- Exports --------------------------------------------------------
+module.exports = { each      : each
+                 , at        : at
+                 , put       : put
+                 , remove    : remove
+                 , clear     : clear
+                 , size      : size
+                 , empty_p   : empty_p
+                 , has_key_p : has_key_p
+                 , keys      : keys
+                 , values    : values
+                 , items     : items
+                 , reduce    : reduce
+                 , every     : every
+                 , some      : some
+                 , filter    : filter
+                 , map       : map
                  }

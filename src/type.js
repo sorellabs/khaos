@@ -45,7 +45,6 @@
 var _class = {}.toString
 
 
-
 
 //// -- Generic checkers -----------------------------------------------
 
@@ -155,6 +154,7 @@ function callable_p(subject) {
   return typeof subject == 'function' }
 
 
+
 //// -- Exports --------------------------------------------------------
 module.exports = { is_p        : is_p
                  , name        : name
