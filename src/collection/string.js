@@ -24,7 +24,8 @@
 /// Module khaos.collection.string
 
 //// -- Aliases --------------------------------------------------------
-var __trim = "".trim
+var __trim        = ''.trim
+var __concatenate = ''.concat
 
 
 
@@ -34,7 +35,7 @@ function repeat(string, times) {
   :      /* otherwise */  Array(times + 1).join(string) }
 
 function concatenate() {
-  return ''.concat.apply(null, arguments) }
+  return __concatenate.apply(null, arguments) }
 
 
 
@@ -42,6 +43,8 @@ function concatenate() {
 function trim(string) {
   return __trim.call(string) }
 
+// TODO: consider being explicit about which characters are considered
+// whitespace, given the `\s' character class has several problems.
 function trim_left(string) {
   return string.replace(/^\s+/, '') }
 
@@ -57,6 +60,12 @@ function starts_with_p(string, what) {
 function ends_with_p(string, what) {
   return string.slice(-what.length) == what }
 
+function empty_p(string) {
+  return string === '' }
+
+function has_p(string, what) {
+  return string.indexOf(what) != -1 }
+
 function size(string) {
   return string.length }
 
@@ -69,12 +78,6 @@ function count(string, what) {
     else            break }
 
   return result }
-
-function empty_p(string) {
-  return string === '' }
-
-function has_p(string, what) {
-  return string.indexOf(what) != -1 }
 
 
 
@@ -98,14 +101,23 @@ function camelise(string) {
   var re = /[\s\-_]+(\w)/g
 
   return downcase(string).replace(re, function(match, letter) {
-    return upcase(letter) })}
+                                        return upcase(letter) })}
 
 
 
 //// -- Searching ------------------------------------------------------
 function find(string, predicate) {
-  // TODO:
-}
+  var result, i, len
+  for (i = 0, len = string.length; i < len; ++i)
+    if (predicate(string.charAt(i), i, string))
+      return i }
+
+function find_last(string, predicate) {
+  var result
+  var i = string.length
+  while (i--)
+    if (predicate(string.charAt(i), i, string))
+      return i }
 
 
 
@@ -132,17 +144,27 @@ function drop(string, size) {
   return string.slice(size) }
 
 function split(string, predicate) {
-  // TODO:
-}
+  var i, len
+  var result = []
+  var start  = 0
+  for (i = 0, len = string.length; i < len; ++i) {
+    if (predicate(string.charAt(i), i, string)) {
+      result.push(string.slice(0, i))
+      start = i }}
+
+  if (start < len) result.push(string.slice(start))
+  return result }
 
 
- 
+
 //// -- Formatting -----------------------------------------------------
 function format(string, mappings) {
   mappings = mappings || {}
-  return string.replace(/{(\\?:)([^}]+)}/g, function(match, mod, key) {
+  return string.replace(/{(\\?:)([^}]+)}/g, resolve_identifier)
+
+  function resolve_identifier(match, mod, key) {
     return starts_with_p(mod, '\\')?  '{:' + key + '}'
-    :      /* otherwise */            mappings[key] })}
+    :      /* otherwise */            mappings[key] }}
 
 
 
@@ -179,6 +201,7 @@ module.exports = { repeat        : repeat
                  , dasherise     : dasherise
                  , camelise      : camelise
                  , find          : find
+                 , find_last     : find_last
                  , first         : first
                  , rest          : rest
                  , last          : last
