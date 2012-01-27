@@ -268,8 +268,10 @@ Package collection
     -- Inspecting
     starts_with? :: String, String -> Bool
     ends_with?   :: String, String -> Bool
-    has?         :: String, String -> String
-    count        :: String, String -> String
+    has?         :: String, String -> Bool
+    empty?       :: String -> Bool
+    size         :: String -> Number
+    count        :: String, String -> Number
 
     -- Case folding / mappings
     upcase     :: String -> String
@@ -279,8 +281,8 @@ Package collection
     camelise   :: String -> String
 
     -- Searching
-    find      :: String, (String, Number, String -> Bool) -> Maybe Number
-    find_last :: String, (String, Number, String -> Bool) -> Maybe Number
+    find      :: String, (Char, Number, String -> Bool) -> Maybe Number
+    find_last :: String, (Char, Number, String -> Bool) -> Maybe Number
 
     -- Slicing
     first    :: String -> Maybe Char
@@ -292,7 +294,7 @@ Package collection
     slice    :: String -> String
     take     :: String, Number -> String
     drop     :: String, Number -> String
-    split    :: String, String, Number -> [String]
+    split    :: String, (Char, Number, String -> Bool) -> [String]
 
     -- Comparison
     compare :: String, String, foldcase:Bool -> Ordering
