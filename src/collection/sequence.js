@@ -39,7 +39,7 @@
 // non-Array-bounded sequences.
 
 //// -- Aliases --------------------------------------------------------
-var __each          = [].each
+var __each          = [].forEach
 var __push          = [].push
 var __index_of      = [].indexOf
 var __last_index_of = [].lastIndexOf
