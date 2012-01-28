@@ -351,27 +351,84 @@ describe('{} collection.sequence', function()  {
   })
 
   describe('λ sort', function() {
-    it('- Should return the sequence sorted.')
-    it('- Should always return an array.')
-    it('- Shouldn\'t mutate the sequence.')
+    function reverse_sorter(a,b){ return b > a }
+
+    it('Should return the sequence sorted.', function() {
+      var a = [3,1,2]
+      var b = 'bca'
+      var c = {0:3,1:1,2:2,length:3}
+
+      expect($.sorted(a)).to.eql([1,2,3])
+      expect($.sorted(b)).to.eql(['a','b','c'])
+      expect($.sorted(c)).to.eql([1,2,3])
+      expect($.sorted(a, reverse_sorter)).to.eql([3,2,1])
+      expect($.sorted(b, reverse_sorter)).to.eql(['c','b','a'])
+      expect($.sorted(c, reverse_sorter)).to.eql([3,2,1])
+    })
   })
 
   describe('λ reversed', function() {
-    it('- Should return a sequence reversed.')
-    it('- Should always return an array.')
-    it('- Shouldn\'t mutate the sequence.')
+    it('Should return a sequence reversed.', function() {
+      var a = [1,2,3]
+      var b = 'abc'
+      var c = {0:1,1:2,2:3,length:3}
+
+      expect($.reversed(a)).to.eql([3,2,1])
+      expect($.reversed(b)).to.eql(['c','b','a'])
+      expect($.reversed(c)).to.eql([3,2,1])
+    })
+
+    it('Shouldn\'t mutate the original sequence.', function() {
+      var a = [1,2,3]
+      var b = 'abc'
+      var c = {0:1,1:2,2:3,length:3}
+
+      expect($.reversed(a)).to.not.be(a)
+      expect($.reversed(b)).to.not.be(b)
+      expect($.reversed(c)).to.not.be(c)
+
+      expect(a).to.eql([1,2,3])
+      expect(b).to.be('abc')
+      expect(c).to.eql({0:1,1:2,2:3,length:3})
+    })
   })
 
   describe('λ find', function() {
-    it('- Should return the index of first item to pass the predicate.')
-    it('- Should skip non-set items.')
-    it('- Should return undefined if no value is found.')
+    it('Should return the index of first item to pass the predicate.', function() {
+      expect($.find([1, 2, 1, 3], util.always)).to.be(0)
+      expect($.find('fOoO', function(v){ return v == v.toUpperCase() })).to.be(1)
+    })
+    it('Should skip non-set items.', function() {
+      var a = [1, 2]
+      a[100] = 3
+      a[200] = undefined
+
+      expect($.find(a, function(v){ return v === undefined })).to.be(200)
+    })
+    it('Should return undefined if no value is found.', function() {
+      expect($.find('foo', util.never)).to.be(undefined)
+      expect($.find([1,2,3], util.never)).to.be(undefined)
+      expect($.find({0:1, 100:2, length: 200}, util.never)).to.be(undefined)
+    })
   })
 
   describe('λ find_last', function() {
-    it('- Should return the index of the last item to pass the predicate.')
-    it('- Should skip non-set items.')
-    it('- Should return undefined if no value is found.')
+    it('Should return the index of the last item to pass the predicate.', function() {
+      expect($.find_last([1, 2, 1, 3], util.always)).to.be(3)
+      expect($.find_last('fOoO', function(v){ return v == v.toUpperCase() })).to.be(3)
+    })
+    it('Should skip non-set items.', function() {
+      var a = [1, 2]
+      a[50] = undefined
+      a[100] = 3
+
+      expect($.find_last(a, function(v){ return v === undefined })).to.be(50)
+    })
+    it('Should return undefined if no value is found.', function() {
+      expect($.find_last('foo', util.never)).to.be(undefined)
+      expect($.find_last([1,2,3], util.never)).to.be(undefined)
+      expect($.find_last({0:1, 100:2, length: 200}, util.never)).to.be(undefined)
+    })
   })
 
   describe('λ reduce', function() {
