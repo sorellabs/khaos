@@ -36,7 +36,7 @@ Package collection
 
   Module sequence
     -- Iterating -------------------------------------------------------
-    each :: [a], (e, UInt32, [a] -> Any) -> Undefined
+    each :: [a], (a, UInt32, [a] -> Any) -> Undefined
 
     -- Building --------------------------------------------------------
     concatenate :: [a], [a] -> [a]
