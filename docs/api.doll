@@ -63,7 +63,7 @@ Package collection
     rest     :: [a] -> [a]
     last     :: [a] -> Maybe a
     but-last :: [a] -> [a]
-    slice    :: [a], start:UInt32?, end:Int32? -> [a]
+    slice    :: [a], start:Int32?, end:Int32? -> [a]
     take     :: [a], UInt32 -> [a]
     drop     :: [a], UInt32 -> [a]
     split    :: [a], (a, UInt32, [a] -> Bool) -> [[a]]
@@ -77,8 +77,8 @@ Package collection
     find-last :: [a], (a, UInt32, [a] -> Bool) -> Maybe UInt32
 
     -- Folding ---------------------------------------------------------
-    reduce       :: [a], initial:Any?, (acc:Any, a -> Any) -> Any
-    reduce-right :: [a], initial:Any?, (acc:Any, a -> Any) -> Any
+    reduce       :: [a], initial:Any?, (acc:Any, a, UInt32, [a] -> Any) -> Any
+    reduce-right :: [a], initial:Any?, (acc:Any, a, UInt32, [a] -> Any) -> Any
     every        :: [a], (a, UInt32, [a] -> Bool) -> Bool
     some         :: [a], (a, UInt32, [a] -> Bool) -> Bool
     filter       :: [a], (a, UInt32, [a] -> Bool) -> [a]
@@ -105,7 +105,7 @@ Package collection
     find :: {k -> e}, (e, k, {k -> e} -> Bool) -> Maybe k
 
     -- Folding ---------------------------------------------------------
-    reduce :: {k -> e}, initial:Any?, (acc:Any, e, k -> Any) -> Any
+    reduce :: {k -> e}, initial:Any?, (acc:Any, e, k, {k -> e} -> Any) -> Any
     every  :: {k -> e}, (e, k, {k -> e} -> Bool) -> Bool
     some   :: {k -> e}, (e, k, {k -> e} -> Bool) -> Bool
     filter :: a <| {k -> e}, (e, k, {k -> e} -> Bool) -> {k -> e}
