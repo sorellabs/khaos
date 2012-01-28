@@ -79,8 +79,16 @@ function each(sequence, iterator) {
 // the first sequence.
 //
 // concatenate :: [a], [a]... -> [a]
-function concatenate(sequence, other_sequences) {
-  return __concat.apply(sequence, other_sequences) }
+function concatenate(sequence) {
+  var i, len
+  sequence = to_array(sequence)
+  for (i = 1, len = arguments.length; i < len; ++i)
+    sequence = sequence.concat(to_array(arguments[i]))
+
+  return sequence
+
+  function to_array(x){ return array_p(x)?      x
+                        :      /* otherwise */  copy(x) }}
 
 ///// Function make
 // Returns a new sequence of `n' items, possibly initialised to some
