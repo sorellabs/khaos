@@ -346,10 +346,11 @@ function find(sequence, predicate) {
 //
 // find_last :: [a], (a, UInt32, [a] -> Bool) -> Maybe UInt32
 function find_last(sequence, predicate) {
-  var i, len
+  var i
   sequence = Object(sequence)
 
-  for (i = 0, len = sequence.length; i < len; ++i)
+  i = sequence.length
+  while (i--)
     if (i in sequence && predicate(sequence[i], i, sequence))
       return i
 
