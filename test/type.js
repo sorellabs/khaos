@@ -1,4 +1,4 @@
-var type = require('../src/type')
+var type = require('../src/type/core')
 
 describe('Module: type', function() {
 

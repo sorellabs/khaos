@@ -1,4 +1,4 @@
-var fun = require('../src/fun')
+var fun = require('../src/functional/core')
 
 function arglen()   { return arguments.length }
 function get_this() { return this             }
