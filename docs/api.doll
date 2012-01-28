@@ -1,0 +1,194 @@
+------------------------------------------------------------------------
+-- Khaos is the standard library for OrpheOS modules.
+--
+-- The following API is described in Horkos' syntax. When writing
+-- JavaScript code, just remember:
+--
+-- * A `!` suffix simply marks the function as having side-effects.
+-- * A `*` suffix means that the value will be modified in-place.
+-- * A `?` should be replaced by `_p` in actual code.
+-- * A `-` in the middle of an identifier should be replaced by `_` in
+--   actual code.
+
+
+== Core interfaces =====================================================
+Interface Maybe a
+:: a
+ | Undefined
+
+Interface Ordering
+:: lower:   -Infinity .. -1
+ | equal:   0
+ | greater: 1 .. Infinity
+
+Interface TimerID -- Platform dependant
+
+
+
+== Collections =========================================================
+Package collection
+
+  Module sequence
+    -- Iterating -------------------------------------------------------
+    each :: [a], (e, UInt32, [a] -> Any) -> Undefined
+
+    -- Building --------------------------------------------------------
+    concatenate :: [a], [a] -> [a]
+    make        :: size:UInt32, default:a? -> [a]
+    
+    -- Manipulating ----------------------------------------------------
+    add!     :: [a]*, a -> [a]
+    put!     :: [a]*, UInt32, a -> a
+    remove!  :: [a]*, UInt32 -> a
+    replace! :: [a]*, value:a, replacement:a -> [a]
+    insert!  :: [a]*, UInt32, a -> [a]
+    clear!   :: [a]* -> []
+
+    -- Inspecting ------------------------------------------------------
+    at     :: [a], UInt32, default:a -> a
+    at     :: [a], UInt32 -> Maybe a
+    size   :: [a] -> UInt32
+    count  :: [a], a -> UInt32
+    empty? :: [a] -> Bool
+    has?   :: [a], a -> Bool
+
+    -- Slicing ---------------------------------------------------------
+    first    :: [a] -> Maybe a
+    rest     :: [a] -> [a]
+    last     :: [a] -> Maybe a
+    but-last :: [a] -> [a]
+    slice    :: [a], start:UInt32?, end:Int32? -> [a]
+    take     :: [a], UInt32 -> [a]
+    drop     :: [a], UInt32 -> [a]
+    split    :: [a], (a, UInt32, [a] -> Bool) -> [[a]]
+
+    -- Sorting ---------------------------------------------------------
+    sorted   :: [a], (a, a -> Ordering) -> [a]
+    reversed :: [a] -> [a]
+
+    -- Searching -------------------------------------------------------
+    find      :: [a], (a, UInt32, [a] -> Bool) -> Maybe UInt32
+    find-last :: [a], (a, UInt32, [a] -> Bool) -> Maybe UInt32
+
+    -- Folding ---------------------------------------------------------
+    reduce       :: [a], initial:Any?, (acc:Any, a -> Any) -> Any
+    reduce-right :: [a], initial:Any?, (acc:Any, a -> Any) -> Any
+    every        :: [a], (a, UInt32, [a] -> Bool) -> Bool
+    some         :: [a], (a, UInt32, [a] -> Bool) -> Bool
+    filter       :: [a], (a, UInt32, [a] -> Bool) -> [a]
+    map          :: [a], (a, UInt32, [a] -> a) -> [a]
+
+
+  
+  Module map
+    -- Iterating -------------------------------------------------------
+    each :: {k -> e}, (e, k, {k -> e} -> Any) -> Undefined
+
+    -- Manipulating ----------------------------------------------------
+    put!     :: {k -> e}*, k, e -> {k -> e}
+    remove!  :: {k -> e}*, k -> {k -> e}
+    replace! :: {k -> e}*, value:e, replacement:e -> {k -> e}
+    clear!   :: {k -> e}* -> {}
+
+    -- Decomposing -----------------------------------------------------
+    keys   :: {k -> e} -> [k]
+    values :: {k -> e} -> [e]
+    items  :: {k -> e} -> [(k, e)]
+
+    -- Searching -------------------------------------------------------
+    find :: {k -> e}, (e, k, {k -> e} -> Bool) -> Maybe k
+
+    -- Folding ---------------------------------------------------------
+    reduce :: {k -> e}, initial:Any?, (acc:Any, e, k -> Any) -> Any
+    every  :: {k -> e}, (e, k, {k -> e} -> Bool) -> Bool
+    some   :: {k -> e}, (e, k, {k -> e} -> Bool) -> Bool
+    filter :: a <| {k -> e}, (e, k, {k -> e} -> Bool) -> {k -> e}
+    map    :: a <| {k -> e}, (e, k, {k -> e} -> e) -> {k -> e}
+
+
+  
+  Module string
+    -- Building --------------------------------------------------------
+    repeat      :: String, Number -> String
+    concatenate :: String... -> String
+
+    -- Trimming --------------------------------------------------------
+    trim       :: String -> String
+    trim-left  :: String -> String
+    trim-right :: String -> String
+
+    -- Inspecting ------------------------------------------------------
+    starts-with? :: String, String -> Bool
+    ends-with?   :: String, String -> Bool
+    has?         :: String -> Bool
+    empty?       :: String -> Bool
+    size         :: String -> Number
+    count        :: String, String -> Number
+
+    -- Case folding / mappings -----------------------------------------
+    upcase     :: String -> String
+    downcase   :: String -> String
+    capitalise :: String, all_words:Bool -> String
+    dasherise  :: String -> String
+    camelise   :: String -> String
+
+    -- Comparison ------------------------------------------------------
+    compare :: String, String, foldcase:Bool -> Ordering
+    equal?  :: String, String, foldcase:Bool -> Bool
+
+    -- Formatting / Templating -----------------------------------------
+    format :: String, {String -> String | (String... -> String)} -> String
+
+
+
+== Functional programming ==============================================
+Package functional
+
+  Module core
+    -- Asynchronous utilities --------------------------------------------
+    delay :: seconds:Number, Fun -> TimerID
+    defer :: Fun -> Undefined
+    
+    -- Wrapping / Higher-Order -------------------------------------------
+    compose      :: Fun... -> Fun
+    uncurry      :: (Any... -> a) -> [Any] -> a
+    uncurry-bind :: (@this:Any, Any... -> a) -> [this, Any...] -> a
+    curry        :: (Fun... -> a) -> Any -> (...) -> a
+    partial      :: (Fun... -> a), Pattern... -> Any... -> a
+    
+    -- Constraining application ------------------------------------------
+    limit :: Number, (Fun -> a) -> Fun -> a
+    once  :: (Fun -> a) -> Fun -> a
+    until :: (Fun -> Bool), (Fun -> a) -> Fun -> a
+    when  :: (Fun -> Bool), (Fun -> a) -> Fun -> a
+    
+    -- Lambda calculus combinators ---------------------------------------
+    identity :: a -> a
+    constant :: a -> () -> a
+    
+    -- Predicate logic ---------------------------------------------------
+    or  :: (Fun -> a)... -> Fun -> a
+    and :: (Fun -> a)... -> Fun -> a
+    not :: (Fun -> a) -> Fun -> Bool
+
+
+
+== Type checking =======================================================
+Package type
+
+  Module core
+    -- Base checks -----------------------------------------------------
+    is?  :: Any, Object | Fun -> Bool
+    name :: Any -> String
+
+    -- Specialised tests -----------------------------------------------
+    string?    :: Any -> Bool
+    number?    :: Any -> Bool
+    date?      :: Any -> Bool
+    regexp?    :: Any -> Bool
+    fun?       :: Any -> Bool
+    bool?      :: Any -> Bool
+    object?    :: Any -> Bool
+    primitive? :: Any -> Bool
+    undefined? :: Any -> Bool
+    callable?  :: Any -> Bool
