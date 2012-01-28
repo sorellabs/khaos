@@ -187,7 +187,7 @@ function size(sequence) {
 
 
 ///// Function count
-// Returns the number of times an item is included in the sequence.
+// Returns the number of times the predicate holds.
 //
 // count :: [a], (a, UInt32, [a] -> Bool) -> UInt32
 function count(sequence, predicate) {
@@ -398,8 +398,8 @@ function filter(sequence, predicate) {
 // transformed by the given mapper function. The ordering is maintained.
 //
 // map :: [a], (a, UInt32, [a] -> a) -> [a]
-function map(sequence, predicate) {
-  return __map.call(sequence, predicate) }
+function map(sequence, functor) {
+  return __map.call(sequence, functor) }
 
 
 
