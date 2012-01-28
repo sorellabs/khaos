@@ -22,6 +22,21 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /// Module khaos.collection.sequence
+//
+// Generic sequence-like handling module.
+//
+// This module provides generic functionality for handling objects that
+// match the `Sequence' interface, in an ad-hoc manner (objects are
+// always coerced to Arrays internally).
+//
+// It should be noted that, due to the whole conversion-to-Array
+// business, these functions are potentially dangerous with sequences
+// that have lengths outside of the UInt32 range — [0..2³²[, — use them
+// with caution around those, or don't use them at all!
+//
+// Generic manipulation for sequences is included in the `core' module
+// of the `collection' package, which would be more appropriated for
+// non-Array-bounded sequences.
 
 //// -- Aliases --------------------------------------------------------
 var __each          = [].each
@@ -45,13 +60,13 @@ var copy            = slice
 
 
 
-//// -- Traversable ----------------------------------------------------
+//// -- Iterating ------------------------------------------------------
 
 ///// Function each
 // Applies the iterator function to each index/value pair in the
 // sequence.
 //
-// each :: [a], (e, UInt32, [a] -> Any) -> Undefined
+// each :: [a], (a, UInt32, [a] -> Any) -> Undefined
 function each(sequence, iterator) {
   __each.call(sequence, iterator) }
 
@@ -59,46 +74,92 @@ function each(sequence, iterator) {
 
 //// -- Building -------------------------------------------------------
 
-///// Function insert
-// Inserts a value at the given index, shifting items from there onwards
-// to the right.
+///// Function concatenate
+// Returns a new sequence composed from the latter sequence appended to
+// the first sequence.
 //
-// insert! :: [a], UInt32. a -> [a]
-function insert(sequence, index, value) {
-  __splice.call(sequence, index, 0, value)
-  return sequence }
+// concatenate :: [a], [a]... -> [a]
+function concatenate(sequence, other_sequences) {
+  return __concat.apply(sequence, other_sequences) }
 
+///// Function make
+// Returns a new sequence of `n' items, possibly initialised to some
+// `default' value.
+//
+// make :: Number, Any -> [a]
+function make(size, default_) {
+  var result = []
+  while (size--)  result.push(default_)
+  return result }
+
+
+
+//// -- Manipulating ---------------------------------------------------
 
 ///// Function add
 // Adds a value to the end of the sequence.
 //
-// add! :: [a], a -> [a]
+// add! :: [a]*, a -> [a]
 function add(sequence, value) {
   __push.call(sequence, value)
+  return sequence }
+
+
+///// Function put
+// Replaces the value at the given index by the given value.
+//
+// put! :: [a]*, UInt32, a -> a
+function put(sequence, value, index) {
+  Object(sequence)[index] = value
+  return sequence }
+
+
+///// Function remove
+// Removes the item at the given index.
+//
+// remove! :: [a]*, UInt32 -> [a]
+function remove(sequence, index) {
+  __splice.call(sequence, index, 1)
+  return sequence }
+
+
+///// Function replace
+// Replaces all the occurrences of `value' by the given replacement.
+//
+// replace! :: [a]*, a, a -> [a]
+function replace(sequence, value, replacement) {
+  var index
+  do { index = find(sequence, value)
+       if (index != -1)  __splice.call(sequence, index, 1, replacement) }
+  while (index != -1)
+
+  return sequence }
+
+
+///// Function insert
+// Inserts a value at the given index, shifting items from there onwards
+// to the right.
+//
+// insert! :: [a]*, UInt32. a -> [a]
+function insert(sequence, index, value) {
+  __splice.call(sequence, index, 0, value)
   return sequence }
 
 
 ///// Function clear
 // Empties the sequence.
 //
-// clear! :: [a] -> []
+// clear! :: [a]* -> []
 function clear(sequence) {
   array_p(sequence)?  sequence.length = 0
   : /* otherwise */   __splice.call(sequence, 0, sequence.length)
+
   return sequence }
 
 
-///// Function concatenate
-// Returns a new sequence composed from the latter sequence appended to
-// the first sequence.
-//
-// concatenate :: [a], [a] -> [a]
-function concatenate(sequence, other_sequence) {
-  return __concat.call(sequence, other_sequence) }
-
 
 
-//// -- Manipulating ---------------------------------------------------
+//// -- Inspecting -----------------------------------------------------
 
 ///// Function at
 // Returns the value at the given index.
@@ -111,102 +172,6 @@ function at(sequence, index, _default) {
   return index in sequence?  sequence[index]
   :      /* otherwise */     _default }
 
-
-///// Function put
-// Replaces the value at the given index by the given value.
-//
-// put! :: [a], UInt32, a -> a
-function put(sequence, value, index) {
-  Object(sequence)[index] = value
-  return sequence }
-
-
-///// Function replace
-// Replaces all the occurrences of `value' by the given replacement.
-//
-// replace! :: [a], a, a -> [a]
-function replace(sequence, value, replacement) { var index
-  do {
-    index = find(sequence, value)
-    if (index != -1)  __splice.call(sequence, index, 1, replacement) }
-  while (index != -1)
-
-  return sequence }
-
-
-///// Function remove
-// Removes the item at the given index.
-//
-// remove! :: [a], UInt32 -> [a]
-function remove(sequence, index) {
-  __splice.call(sequence, index, 1)
-  return sequence }
-
-
-
-//// -- Folding --------------------------------------------------------
-
-///// Function reduce
-// Applies a function to each index/value pair in the sequence,
-// returning the accumulated value.
-//
-// reduce :: [a], Any, (Any, a -> Any) -> Any
-// reduce :: [a], (Any, a -> Any) -> Any
-function reduce(sequence, value, folder) {
-  return __reduce.call(sequence, folder, value) }
-
-
-///// Function reduce_right
-// Applies a function to each index/value pair in the sequence, from
-// right to left, returning the accumulated value.
-//
-// reduce_right :: [a], Any, (Any, a -> Any) -> Any
-// reduce_right :: [a], (Any, a -> Any) -> Any
-function reduce_right(sequence, value, folder) {
-  return __reduce_right.call(sequence, folder, value) }
-
-
-///// Function every
-// Does the predicate succeeds for every index/value pair in the
-// sequence?
-//
-// every :: [a], (a, UInt32, [a] -> Bool) -> Bool
-function every(sequence, predicate) {
-  return __every.call(sequence, predicate) }
-
-
-///// Function some
-// Does the predicate succeeds for any index/value pair in the sequence?
-//
-// some :: [a], (a, UInt32, [a] -> Bool) -> Bool
-function some(sequence, predicate) {
-  return __some.call(sequence, predicate) }
-
-
-///// Function filter
-// Returns a new sequence, keeping only the items that pass the provided
-// predicate.
-//
-// filter :: [a], (a, UInt32, [a] -> Bool) -> [a]
-function filter(sequence, predicate) {
-  return __filter.call(sequence, predicate) }
-
-
-///// Function map
-// Returns a new sequence, where each of the values in the sequence are
-// transformed by the given mapper function. The ordering is maintained.
-//
-// map :: [a], (a, UInt32, [a] -> a) -> [a]
-function map(sequence, predicate) {
-  return __map.call(sequence, predicate) }
-
-
-
-//// TODO: Set
-
-
-
-//// -- Inspection -----------------------------------------------------
 
 ///// Function size
 // Returns length of the sequence.
@@ -221,13 +186,23 @@ function size(sequence) {
   return Object(sequence).length }
 
 
+///// Function count
+// Returns the number of times an item is included in the sequence.
+//
+// count :: [a], (a, UInt32, [a] -> Bool) -> UInt32
+function count(sequence, predicate) {
+  return reduce(sequence, 0, function(result, value, index, array) {
+                               return predicate(value, index, array)?  result + 1
+                               :      /* otherwise */                  result })}
+
+
 ///// Function empty_p
 // Is the sequence empty?
 //
 // Note that due to the potential sparse nature of sequences in
 // JavaScript, we just check for the upper-bounds of the sequence. So,
 // there's no guarantee that a non "empty" sequence will have any
-// *actual* items defined. For that, use `count'.
+// *actual* items defined. For that, use `some'.
 //
 // empty_p :: [a] -> Bool
 function empty_p(sequence) {
@@ -239,7 +214,7 @@ function empty_p(sequence) {
 //
 // has_p :: [a], a -> Bool
 function has_p(sequence, value) {
-  return find(sequence, value) != -1 }
+  return find(sequence, value) != null }
 
 
 
@@ -282,7 +257,10 @@ function but_last(sequence) {
 // Returns a new sequence containing an arbitrary part of the original
 // sequence.
 //
-// slice :: [a], Int32, ? Int32 -> [a]
+// If either `start' or `end' are given negative indexes, the number is
+// taken to be an offset from the end of the sequence.
+//
+// slice :: [a], Int32?, Int32? -> [a]
 function slice(sequence, start, end) {
   return __slice.call(sequence, start, end) }
 
@@ -315,20 +293,23 @@ function split(sequence, predicate) {
                                     result.push([])
                                   last(result).push(value) })}
 
-//// - Sorting
-///// Function sort
-// Sorts the sequence using the given sorter.
-//
-// sort! :: [a], (a, a -> Ordering) -> [a]
-function sort(sequence, sorter) {
-  return __sort.call(sequence, sorter) }
 
-///// Function reverse
+
+//// -- Sorting --------------------------------------------------------
+
+///// Function sorted
+// Return a sorted sequence using the given ordering rules.
+//
+// sorted :: [a], (a, a -> Ordering) -> [a]
+function sorted(sequence, sorter) {
+  return __sort.call(copy(sequence), sorter) }
+
+///// Function reversed
 // Returns a sequence with the reverse order. That is, the last items
 // will come first.
 //
-// reverse! :: [a] -> [a]
-function reverse(sequence) {
+// reversed :: [a] -> [a]
+function reversed(sequence) {
   return __reverse.call(copy(sequence)) }
 
 
@@ -336,39 +317,111 @@ function reverse(sequence) {
 //// -- Searching ------------------------------------------------------
 
 ///// Function find
-// Returns the index of the first value to match, by a strict equality
-// test, or -1 if not found.
+// Returns the index of the first value to pass the predicate.
 //
 // find :: [a], (a, UInt32, [a] -> Bool) -> Maybe UInt32
 function find(sequence, predicate) {
-  var result = undefined
-  some(sequence, function(value, key) {
-    return predicate(value, key, sequence)?  (result = key, true)
-    :      /* otherwise */                   false })
+  var i, len
+  sequence = Object(sequence)
 
-  return result }
+  for (i = 0, len = sequence.length; i < len; ++i)
+    if (i in sequence && predicate(sequence[i], i, sequence))
+      return i
+
+  return undefined }
+
+
+///// Function find_last
+// Returns the index of the last value to pass the predicate.
+//
+// find_last :: [a], (a, UInt32, [a] -> Bool) -> Maybe UInt32
+function find_last(sequence, predicate) {
+  var i, len
+  sequence = Object(sequence)
+
+  for (i = 0, len = sequence.length; i < len; ++i)
+    if (i in sequence && predicate(sequence[i], i, sequence))
+      return i
+
+  return undefined }
+
+
+
+//// -- Folding --------------------------------------------------------
+
+///// Function reduce
+// Applies a function to each index/value pair in the sequence,
+// returning the accumulated value.
+//
+// reduce :: [a], Any?, (Any, a, UInt32, [a] -> Any) -> Any
+function reduce(sequence, value, folder) {
+  return __reduce.call(sequence, folder, value) }
+
+
+///// Function reduce_right
+// Applies a function to each index/value pair in the sequence, from
+// right to left, returning the accumulated value.
+//
+// reduce_right :: [a], Any?, (Any, a, UInt32, [a] -> Any) -> Any
+function reduce_right(sequence, value, folder) {
+  return __reduce_right.call(sequence, folder, value) }
+
+
+///// Function every
+// Does the predicate succeeds for every index/value pair in the
+// sequence?
+//
+// every :: [a], (a, UInt32, [a] -> Bool) -> Bool
+function every(sequence, predicate) {
+  return __every.call(sequence, predicate) }
+
+
+///// Function some
+// Does the predicate succeeds for any index/value pair in the sequence?
+//
+// some :: [a], (a, UInt32, [a] -> Bool) -> Bool
+function some(sequence, predicate) {
+  return __some.call(sequence, predicate) }
+
+
+///// Function filter
+// Returns a new sequence, keeping only the items that pass the provided
+// predicate.
+//
+// filter :: [a], (a, UInt32, [a] -> Bool) -> [a]
+function filter(sequence, predicate) {
+  return __filter.call(sequence, predicate) }
+
+
+///// Function map
+// Returns a new sequence, where each of the values in the sequence are
+// transformed by the given mapper function. The ordering is maintained.
+//
+// map :: [a], (a, UInt32, [a] -> a) -> [a]
+function map(sequence, predicate) {
+  return __map.call(sequence, predicate) }
 
 
 
 //// -- Exports --------------------------------------------------------
 module.exports = { each         : each
-                 , insert       : insert
+
                  , concatenate  : concatenate
+                 , make         : make
+
                  , add          : add
-                 , replace      : replace
-                 , clear        : clear
-                 , at           : at
                  , put          : put
                  , remove       : remove
-                 , reduce       : reduce
-                 , reduce_right : reduce_right
-                 , every        : every
-                 , some         : some
-                 , filter       : filter
-                 , map          : map
+                 , replace      : replace
+                 , insert       : insert
+                 , clear        : clear
+
+                 , at           : at
                  , size         : size
+                 , count        : count
                  , empty_p      : empty_p
                  , has_p        : has_p
+
                  , first        : first
                  , rest         : rest
                  , last         : last
@@ -377,7 +430,17 @@ module.exports = { each         : each
                  , take         : take
                  , drop         : drop
                  , split        : split
-                 , sort         : sort
-                 , reverse      : reverse
+
+                 , sorted       : sorted
+                 , reversed     : reversed
+
                  , find         : find
+                 , find_last    : find_last
+
+                 , reduce       : reduce
+                 , reduce_right : reduce_right
+                 , every        : every
+                 , some         : some
+                 , filter       : filter
+                 , map          : map
                  }
