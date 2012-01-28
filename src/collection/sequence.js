@@ -137,7 +137,7 @@ function remove(sequence, index) {
 // replace! :: [a]*, a, a -> [a]
 function replace(sequence, value, replacement) {
   var index
-  do { index = find(sequence, value)
+  do { index = __index_of.call(sequence, value)
        if (index != -1)  __splice.call(sequence, index, 1, replacement) }
   while (index != -1)
 
