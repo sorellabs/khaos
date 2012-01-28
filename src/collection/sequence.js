@@ -222,7 +222,7 @@ function empty_p(sequence) {
 //
 // has_p :: [a], a -> Bool
 function has_p(sequence, value) {
-  return find(sequence, value) != null }
+  return __index_of.call(sequence, value) != -1 }
 
 
 
@@ -287,7 +287,8 @@ function take(sequence, size) {
 //
 // drop :: [a], UInt32 -> [a]
 function drop(sequence, size) {
-  return slice(sequence, size) }
+  return arguments.length == 1?  []
+  :      /* otherwise */         slice(sequence, size) }
 
 
 ///// Function split
@@ -299,7 +300,8 @@ function split(sequence, predicate) {
   return reduce(sequence, [[]], function(result, value, key) {
                                   if (predicate(value, key, sequence))
                                     result.push([])
-                                  last(result).push(value) })}
+                                  last(result).push(value)
+                                  return result })}
 
 
 
