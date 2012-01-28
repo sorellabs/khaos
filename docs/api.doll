@@ -16,12 +16,18 @@ Interface Maybe a
 :: a
  | Undefined
 
+
 Interface Ordering
 :: lower:   -Infinity .. -1
  | equal:   0
  | greater: 1 .. Infinity
 
+
 Interface TimerID -- Platform dependant
+
+
+Interface Sequence
+  length :: UInt32
 
 
 
