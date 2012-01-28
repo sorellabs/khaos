@@ -86,81 +86,81 @@ describe('{} collection.sequence', function()  {
   })
 
   describe('λ add', function() {
-    it('- Should add items at the end of the sequence.', function() {
+    it('Should add items at the end of the sequence.', function() {
       var x = []
       $.add(x, 1)
       $.add(x, 2)
       $.add(x, 3)
       expect(x).to.eql([1, 2, 3])
     })
-    it('- Should return the same input object.', function() {
+    it('Should return the same input object.', function() {
       var x = [1, 2]
       expect($.add(x, 3)).to.be(x)
     })
   })
 
   describe('λ put', function() {
-    it('- Should replace a value at `i` by some other value.', function() {
+    it('Should replace a value at `i` by some other value.', function() {
       var x = [1, 2, 3]
       expect($.put(x, 1, -2)).to.eql([1, -2, 3])
     })
-    it('- Should return the same input object.', function() {
+    it('Should return the same input object.', function() {
       var x = [1, 2, 3]
       expect($.put(x, 1, -2)).to.be(x)
     })
   })
 
   describe('λ remove', function() {
-    it('- Should remove the item at `i`.', function() {
+    it('Should remove the item at `i`.', function() {
       var x = [1, 2, 3]
       expect($.remove(x, 1)).to.eql([1, 3])
     })
-    it('- Should return the same input object.', function() {
+    it('Should return the same input object.', function() {
       var x = [1, 2, 3]
       expect($.remove(x, 1)).to.be(x)
     })
   })
 
   describe('λ replace', function() {
-    it('- Should replace all occurences of `a` by `b`.', function() {
+    it('Should replace all occurences of `a` by `b`.', function() {
       var x = [1, 2, 3, 2, 4, 2]
       expect($.replace(x, 2, 0)).to.eql([1, 0, 3, 0, 4, 0])
     })
-    it('- Should return the same input object.', function() {
+    it('Should return the same input object.', function() {
       var x = [1, 2, 3, 2, 4, 2]
       expect($.replace(x, 2, 0)).to.be(x)
     })
   })
 
   describe('λ insert', function() {
-    it('- Should insert an item at `i`.', function() {
+    it('Should insert an item at `i`.', function() {
       var x = [1, 2, 3]
       expect($.insert(x, 1, 1.5)).to.eql([1, 1.5, 2, 3])
     })
-    it('- Should return the same input object.', function() {
+    it('Should return the same input object.', function() {
       var x = [1, 2, 3]
       expect($.insert(x, 1.5, 1)).to.be(x)
     })
   })
 
   describe('λ clear', function() {
-    it('- Should empty the sequence.', function() {
+    it('Should empty the sequence.', function() {
       expect($.clear([1, 2, 3])).to.eql([])
     })
-    it('- Should return the same input object.', function() {
+    it('Should return the same input object.', function() {
       var x = [1, 2, 3]
       expect($.clear(x)).to.be(x)
     })
   })
 
   describe('λ at', function() {
-    it('- Should return the item at `i`.', function() {
+    it('Should return the item at `i`.', function() {
       var x = [1, 2, 3]
       expect($.at(x, 1)).to.be(2)
       expect($.at('bar', 1)).to.be('a')
       expect($.at({ 0: 1, 1: 2, length: 4 }, 1)).to.be(2)
     })
-    it('- Should return `default` if there\'s no item at `i`.', function() {
+    it('Should return `default` if there\'s no item at `i`.', function() {
       var x = [1, 2, 3]
       x[40] = 40
       expect($.at(x, 10)).to.be(undefined)
@@ -169,25 +169,25 @@ describe('{} collection.sequence', function()  {
   })
 
   describe('λ size', function() {
-    it('- Should return the length of the sequence.', function() {
+    it('Should return the length of the sequence.', function() {
       expect($.size([1, 2, 3])).to.be(3)
       expect($.size(Array(100))).to.be(100)
       expect($.size('foo')).to.be(3)
       expect($.size({ length: 100 })).to.be(100)
     })
-    it('- Should always return an UInt32.', function() {
+    it('Should always return an UInt32.', function() {
       expect($.size({ length: -10 })).to.be(0)
       expect($.size({ length: Math.pow(2, 53) })).to.be(0)
     })
   })
 
   describe('λ count', function() {
-    it('- Should return the number of times the predicate holds.', function() {
+    it('Should return the number of times the predicate holds.', function() {
       expect($.count([1, 2, 3], util.always)).to.be(3)
       expect($.count(Array(100), util.always)).to.be(0)
       expect($.count([1, 2, undefined, 3], util.never)).to.be(0)
     })
-    it('- Should pass [val, key, seq] to predicate.', function() {
+    it('Should pass [val, key, seq] to predicate.', function() {
       var x
       $.count(x = [1, 2], function(v, k, s) {
         expect([1, 2]).to.contain(v)
@@ -197,13 +197,13 @@ describe('{} collection.sequence', function()  {
   })
 
   describe('λ empty?', function() {
-    it('- Should hold if sequence.length is 0.', function() {
+    it('Should hold if sequence.length is 0.', function() {
       expect($.empty_p('')).to.be.ok()
       expect($.empty_p([])).to.be.ok()
       expect($.empty_p({ length: 0 })).to.be.ok()
       expect($.empty_p({ 0: 1, 1: 2, length: 0 })).to.be.ok()
     })
-    it('- Should fail otherwise.', function() {
+    it('Should fail otherwise.', function() {
       expect($.empty_p('foo')).to.not.be.ok()
       expect($.empty_p([1, 2])).to.not.be.ok()
       expect($.empty_p({ length: 3 })).to.not.be.ok()
@@ -212,53 +212,142 @@ describe('{} collection.sequence', function()  {
   })
 
   describe('λ has?', function() {
-    it('- Should hold if the sequence includes `item` at least once.')
-    it('- Should fail otherwise.')
+    it('Should hold if the sequence includes `item` at least once.', function() {
+      var x = {}
+      expect($.has_p('foo', 'f')).to.be.ok()
+      expect($.has_p([1, 2, 3], 2)).to.be.ok()
+      expect($.has_p([x, {}, []], x)).to.be.ok()
+      expect($.has_p({0: x, 1: 1, length: 2}, x)).to.be.ok()
+    })
+    it('Should fail otherwise.', function() {
+      var x = {}
+      expect($.has_p('foo', 'b')).to.not.be.ok()
+      expect($.has_p([1, 2, 3], 5)).to.not.be.ok()
+      expect($.has_p([x, x, x], {})).to.not.be.ok()
+      expect($.has_p({ 0: x, 1: 2, 2: 'f', length: 2 }, 'f')).to.not.be.ok()
+    })
   })
 
   describe('λ first', function() {
-    it('- Should return the first item of the sequence.')
-    it('- Should return `undefined` for empty sequences.')
+    it('Should return the first item of the sequence.', function() {
+      expect($.first('foo')).to.be('f')
+      expect($.first([1, 2, 3])).to.be(1)
+      expect($.first({ 0: 1, 1: 2, length: 2 })).to.be(1)
+    })
+    it('Should return `undefined` for empty sequences.', function() {
+      expect($.first('')).to.be(undefined)
+      expect($.first([])).to.be(undefined)
+      expect($.first({})).to.be(undefined)
+    })
   })
 
   describe('λ rest', function() {
-    it('- Should return all but the first item.')
-    it('- Should always return an array.')
+    it('Should return all but the first item.', function() {
+      expect($.rest('foo')).to.eql(['o', 'o'])
+      expect($.rest([1, 2, 3])).to.eql([2, 3])
+      expect($.rest({ 0: 1, 1: 2, length: 2 })).to.eql([2])
+    })
   })
 
   describe('λ last', function() {
-    it('- Should return the last item of the sequence.')
-    it('- Should return `undefined` for empty sequences.')
+    it('Should return the last item of the sequence.', function() {
+      expect($.last('bar')).to.be('r')
+      expect($.last([1, 2, 3])).to.be(3)
+      expect($.last({ 0: 1, 1: 2, length: 2 })).to.be(2)
+    })
+    it('Should return `undefined` for empty sequences.', function() {
+      expect($.last('')).to.be(undefined)
+      expect($.last([])).to.be(undefined)
+      expect($.last({})).to.be(undefined)
+    })
   })
 
   describe('λ but_last', function() {
-    it('- Should return all but the last item.')
-    it('- Should always return an array.')
+    it('Should return all but the last item.', function() {
+      expect($.but_last('bar')).to.eql(['b', 'a'])
+      expect($.but_last([1, 2, 3])).to.eql([1, 2])
+      expect($.but_last({ 0: 1, 1: 2, length: 2 })).to.eql([1])
+    })
   })
 
   describe('λ slice', function() {
-    it('- Should return a new sequence from `start` to `end`.')
-    it('- Should use the length of the array if no `end` is given.')
-    it('- Should use the start of the array if no `start` is given.')
-    it('- Should treat negative indexes as relative to the end of the array.')
+    it('Should return a new sequence from [`start`, `end`[.', function() {
+      expect($.slice('bar', 1, 2)).to.eql(['a'])
+      expect($.slice([1, 2, 3], 0, 2)).to.eql([1, 2])
+      expect($.slice({ 0: 1, 1: 2, length: 2 }, 0, 1)).to.eql([1])
+    })
+    it('Should use the length of the array if no `end` is given.', function() {
+      expect($.slice('bar', 1)).to.eql(['a', 'r'])
+      expect($.slice([1, 2, 3], 1)).to.eql([2, 3])
+      expect($.slice({ 0: 1, 1: 2, length: 2 }, 1)).to.eql([2])
+    })
+    it('Should use the start of the array if no `start` is given.', function() {
+      var x
+      expect($.slice('bar')).to.eql(['b', 'a', 'r'])
+      expect($.slice([1, 2, 3])).to.eql([1, 2, 3])
+      expect($.slice(x = [1, 2, 3])).to.not.be(x)
+      expect($.slice({ 0: 1, 1: 2, length: 2 })).to.eql([1, 2])
+    })
+    it('Should treat negative indexes as relative to the end of the array.', function() {
+      var x = { 0: 1, 1: 2, 2: 3, length: 3 }
+      expect($.slice('bar', -2)).to.eql(['a', 'r'])
+      expect($.slice('bar', -2, -1)).to.eql(['a'])
+      expect($.slice([1, 2, 3], -2)).to.eql([2, 3])
+      expect($.slice([1, 2, 3], -2, -1)).to.eql([2])
+      expect($.slice(x, -2)).to.eql([2, 3])
+      expect($.slice(x, -2, -1)).to.eql([2])
+    })
   })
 
   describe('λ take', function() {
-    it('- Should return the first `n` items of the sequence.')
-    it('- Should take the whole array if no `n` is given.')
+    it('Should return the first `n` items of the sequence.', function() {
+      expect($.take('bar', 2)).to.eql(['b', 'a'])
+      expect($.take([1, 2, 3], 2)).to.eql([1, 2])
+      expect($.take({ 0: 1, 1: 2, 2: 3, length: 3 }, 2)).to.eql([1, 2])
+    })
+    it('Should take the whole array if no `n` is given.', function() {
+      expect($.take('bar')).to.eql(['b', 'a', 'r'])
+      expect($.take([1, 2, 3])).to.eql([1, 2, 3])
+      expect($.take({ 0: 1, 1: 2, 2: 3, length: 3 })).to.eql([1, 2, 3])
+    })
   })
 
   describe('λ drop', function() {
-    it('- Should return all but the first `n` items of the sequence.')
-    it('- Should return an empty list if no `n` is given.')
+    it('Should return all but the first `n` items of the sequence.', function() {
+      expect($.drop('bar', 2)).to.eql(['r'])
+      expect($.drop([1, 2, 3], 2)).to.eql([3])
+      expect($.drop({ 0: 1, 1: 2, 2: 3, length: 3 }, 2)).to.eql([3])
+    })
+    it('Should return an empty list if no `n` is given.', function() {
+      expect($.drop('bar')).to.eql([])
+      expect($.drop([1, 2, 3])).to.eql([])
+      expect($.drop({ 0: 1, 1: 2, 2: 3, length: 3 })).to.eql([])
+    })
   })
 
   describe('λ split', function() {
-    it('- Should return an array of arrays.')
-    it('- Should split the array everytime the predicate holds.')
-    it('- Shouldn\'t mutate the target sequence.')
-    it('- Should pass [val, key, seq] to the predicate.')
-    it('- Should return [[a]] if the predicate doesn\'t hold.')
+    function splitter(v, k, s) { return k > 0 && k % 3 == 0 }
+
+    it('Should split the array everytime the predicate holds.', function() {
+      expect($.split('foobarbaz', splitter)).to.eql([['f', 'o', 'o'], ['b', 'a', 'r'], ['b', 'a', 'z']])
+      expect($.split([1,2,3,4,5,6,7,8,9], splitter)).to.eql([[1,2,3],[4,5,6],[7,8,9]])
+
+    })
+    it('Shouldn\'t mutate the target sequence.', function() {
+      var x = [1,2,3,4,5,6,7,8,9]
+      expect($.split(x, splitter)).to.not.be(x)
+      expect(x).to.eql([1,2,3,4,5,6,7,8,9])
+    })
+    it('Should pass [val, key, seq] to the predicate.', function() {
+      var x = [1,2,3]
+      $.split(x, function(value, key, sequence) {
+        expect([1,2,3]).to.contain(value)
+        expect([0,1,2]).to.contain(key)
+        expect(sequence).to.be(x) })
+    })
+    it('Should return [[a]] if the predicate doesn\'t hold.', function() {
+      expect($.split([1,2,3], util.never)).to.eql([[1,2,3]])
+    })
   })
 
   describe('λ sort', function() {
