@@ -84,12 +84,12 @@ function concatenate(sequence, other_sequences) {
 
 ///// Function make
 // Returns a new sequence of `n' items, possibly initialised to some
-// `default' value.
+// `initial_value'.
 //
 // make :: Number, Any -> [a]
-function make(size, default_) {
+function make(size, initial_value) {
   var result = []
-  while (size--)  result.push(default_)
+  while (size--)  result.push(initial_value)
   return result }
 
 
