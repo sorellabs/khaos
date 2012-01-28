@@ -116,8 +116,8 @@ function add(sequence, value) {
 ///// Function put
 // Replaces the value at the given index by the given value.
 //
-// put! :: [a]*, UInt32, a -> a
-function put(sequence, value, index) {
+// put! :: [a]*, UInt32, a -> [a]
+function put(sequence, index, value) {
   Object(sequence)[index] = value
   return sequence }
 
