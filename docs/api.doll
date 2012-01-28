@@ -39,7 +39,7 @@ Package collection
     each :: [a], (a, UInt32, [a] -> Any) -> Undefined
 
     -- Building --------------------------------------------------------
-    concatenate :: [a], [a] -> [a]
+    concatenate :: [a], [a]... -> [a]
     make        :: size:UInt32, default:a? -> [a]
     
     -- Manipulating ----------------------------------------------------
