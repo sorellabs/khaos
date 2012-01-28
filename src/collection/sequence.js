@@ -191,7 +191,7 @@ function at(sequence, index, _default) {
 //
 // size :: [a] -> UInt32
 function size(sequence) {
-  return Object(sequence).length >>> 0 }
+  return Math.max(0, Object(sequence).length) >>> 0 }
 
 
 ///// Function count
