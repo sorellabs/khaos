@@ -432,47 +432,208 @@ describe('{} collection.sequence', function()  {
   })
 
   describe('λ reduce', function() {
-    it('- Should apply folder to each item in the sequence.')
-    it('- Should pass [acc, val, key, seq] to folder.')
-    it('- Should use initial value as first `acc`, if given.')
-    it('- Should use first item as `acc`, if initial isn\'t given.')
-    it('- Should use return value for next `acc`.')
-    it('- Should return `acc`.')
+    it('Should apply folder to each item in the sequence.', function() {
+      var c = count()
+      $.reduce([1,2,3], 0, c)
+      expect(c()).to.be(3)
+
+      c = count()
+      $.reduce({0:1,100:2,length:200}, c)
+      expect(c()).to.be(1)
+    })
+    it('Should pass [acc, val, key, seq] to folder.', function() {
+      var n = 0
+      var items = [1,2,3]
+      var pos   = [0,1,2]
+      var res   = [0,1,3]
+      var x     = [1,2,3]
+      $.reduce(x, 0, function(r,v,i,s) {
+        expect(r).to.be(res[n])
+        expect(v).to.be(items[n])
+        expect(i).to.be(pos[n])
+        expect(s).to.be(x)
+        ++n
+        return r+v
+      })
+    })
+    it('Should use initial value as first `acc`, if given.', function() {
+      $.reduce([1,2], 3, function(r){
+        expect(r).to.be(3)
+        return r
+      })
+    })
+    it('Should use first item as `acc`, if initial isn\'t given.', function() {
+      $.reduce([1,2], function(r) {
+        expect(r).to.be(1)
+        return r
+      })
+    })
+    it('Should use return value for next `acc`.', function() {
+      var n = 1
+      $.reduce([1,2,3], 0, function(r,v){
+        expect(v).to.be(n)
+        ++n
+        return v
+      })
+    })
+    it('Should return `acc`.', function() {
+      expect($.reduce([1,2,3], function(l,r){ return l + r })).to.be(6)
+      expect($.reduce('foo', function(l,r){ return l + r })).to.be('foo')
+    })
   })
 
   describe('λ reduce_right', function() {
-    it('- Should apply folder to each item in the sequence.')
-    it('- Should apply right-to-left')
-    it('- Should pass [acc, val, key, seq] to folder.')
-    it('- Should use initial value as first `acc`, if given.')
-    it('- Should use first item as `acc`, if initial isn\'t given.')
-    it('- Should use return value for next `acc`.')
-    it('- Should return `acc`.')
+    it('Should apply folder to each item in the sequence.', function() {
+      var c = count()
+      $.reduce_right([1,2,3], 0, c)
+      expect(c()).to.be(3)
+
+      c = count()
+      $.reduce_right({0:1,100:2,length:200}, c)
+      expect(c()).to.be(1)
+    })
+    it('Should apply right-to-left', function() {
+      var n = 0
+      var items = [3,2,1]
+      $.reduce_right([1,2,3], 0, function(r, v) {
+        expect(v).to.be(items[n])
+        return ++n })
+    })
+    it('Should pass [acc, val, key, seq] to folder.', function() {
+      var n = 0
+      var items = [3,2,1]
+      var pos   = [2,1,0]
+      var res   = [0,3,5]
+      var x     = [1,2,3]
+      $.reduce_right(x, 0, function(r,v,i,s) {
+        expect(r).to.be(res[n])
+        expect(v).to.be(items[n])
+        expect(i).to.be(pos[n])
+        expect(s).to.be(x)
+        ++n
+        return r+v
+      })
+    })
+    it('Should use initial value as first `acc`, if given.', function() {
+      $.reduce_right([1,2], 3, function(r){
+        expect(r).to.be(3)
+        return r
+      })
+    })
+    it('Should use first item as `acc`, if initial isn\'t given.', function() {
+      $.reduce_right([1,2], function(r) {
+        expect(r).to.be(2)
+        return r
+      })
+    })
+    it('Should use return value for next `acc`.', function() {
+      var n = 3
+      $.reduce_right([1,2,3], 0, function(r,v){
+        expect(v).to.be(n)
+        --n
+        return v
+      })
+    })
+    it('Should return `acc`.', function() {
+      expect($.reduce_right([1,2,3], function(l,r){ return l - r })).to.be(0)
+      expect($.reduce_right('foo', function(l,r){ return l + r })).to.be('oof')
+    })
   })
 
   describe('λ every', function() {
-    it('- Should apply predicate to each item in the sequence.')
-    it('- Should return False as soon as the predicate fails.')
-    it('- Should pass [val, key, seq] to predicate.')
-    it('- Should return True if all items pass.')
+    it('Should apply predicate to each item in the sequence.', function() {
+      var c = count()
+      $.every([1,2,3], c)
+      expect(c()).to.be(3)
+
+      c = count()
+      $.every({0:1,100:2,length:200}, function(){ c(true); return true })
+      expect(c()).to.be(2)
+    })
+    it('Should return False as soon as the predicate fails.', function() {
+      var c = count()
+      $.every([1,2,3], function(){ c(true); return false })
+      expect(c()).to.be(1)
+    })
+    it('Should pass [val, key, seq] to predicate.', function() {
+      var n = 0
+      var xs = [1,2,3]
+      var is = [0,1,2]
+      $.every(xs, function(v,k,s) {
+        expect(v).to.be(xs[n])
+        expect(k).to.be(is[n])
+        expect(s).to.be(xs)
+        return ++n })
+    })
+    it('Should return True if all items pass.', function() {
+      expect($.every([1,2,3], util.always)).to.be(true)
+    })
   })
 
   describe('λ some', function() {
-    it('- Should apply predicate to each item in the sequence.')
-    it('- Should return True as soon as the predicate holds.')
-    it('- Should pass [val, key, seq] to predicate.')
-    it('- Should return False if all items fail.')
+    it('Should apply predicate to each item in the sequence.', function() {
+      var c = count()
+      $.some([1,2,3], function(){ c(true); return false })
+      expect(c()).to.be(3)
+
+      c = count()
+      $.some({0:1,100:2,length:200}, function(){ c(true); return false })
+      expect(c()).to.be(2)
+    })
+    it('Should return True as soon as the predicate holds.', function() {
+      var c = count()
+      $.some([1,2,3], function(){ c(true); return true })
+      expect(c()).to.be(1)
+    })
+    it('Should pass [val, key, seq] to predicate.', function() {
+      var n = 0
+      var xs = [1,2,3]
+      var is = [0,1,2]
+      $.some(xs, function(v,k,s) {
+        expect(v).to.be(xs[n])
+        expect(k).to.be(is[n])
+        expect(s).to.be(xs)
+        ++n
+        return false })
+    })
+    it('Should return False if all items fail.', function() {
+      expect($.some([1,2,3], util.never)).to.be(false)
+    })
   })
 
   describe('λ filter', function() {
-    it('- Should apply filter to each item in the sequence.')
-    it('- Should return an array with items that pass the predicate.')
-    it('- Shouldn\'t mutate the original sequence.')
+    it('Should apply filter to each item in the sequence.', function() {
+      var c = count()
+      $.filter([1,2,3], c)
+      expect(c()).to.be(3)
+
+      c = count()
+      $.filter({0:1,100:2,length:200}, c)
+      expect(c()).to.be(2)
+    })
+    it('Should return an array with items that pass the predicate.', function() {
+      expect($.filter([1,2,3], util.always)).to.eql([1,2,3])
+      expect($.filter([1,2,3], util.never)).to.eql([])
+      expect($.filter({0:1,100:2,length:200}, util.always)).to.eql([1,2])
+    })
   })
 
   describe('λ map', function() {
-    it('- Should apply mapper for each item in the sequence.')
-    it('- Should return an array with all items transformed by mapper.')
-    it('- Shouldn\'t mutate the original sequence.')
+    it('Should apply mapper for each item in the sequence.', function() {
+      var c = count()
+      $.map([1,2,3], c)
+      expect(c()).to.be(3)
+
+      c = count()
+      $.map({0:1,100:2,length:200}, c)
+      expect(c()).to.be(2)
+    })
+    it('Should return an array with all items transformed by mapper.', function() {
+      function squared(x) { return x * x }
+      var xs = {0:2,2:3,4:4,length:5}
+
+      expect($.map([2,3,4], squared)).to.eql([4,9,16])
+      expect($.map(xs, squared)).to.eql([4,,9,,16])
+    })
   })
 })
