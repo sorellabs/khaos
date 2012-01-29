@@ -220,7 +220,7 @@ function camelise(string) {
 ///// Function first
 // Returns the first character in the `string'.
 //
-// first :: String -> Maybe Char
+// first :: String -> Char
 function first(string) {
   return string.charAt(0) }
 
@@ -236,7 +236,7 @@ function rest(string) {
 ///// Function last
 // Returns the last character in the `string'.
 //
-// last :: String -> Maybe Char
+// last :: String -> Char
 function last(string) {
   return string.charAt(string.length - 1) }
 
