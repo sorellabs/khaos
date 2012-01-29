@@ -371,37 +371,37 @@ function format(string, mappings) {
 
 
 //// -- Exports --------------------------------------------------------
-module.exports = { repeat: repeat
-                 , concatenate: concatenate
+module.exports = { repeat            : repeat
+                 , concatenate       : concatenate
 
-                 , trim: trim
-                 , trim_left: trim_left
-                 , trim_right: trim_right
+                 , trim              : trim
+                 , trim_left         : trim_left
+                 , trim_right        : trim_right
 
-                 , starts_with_p: starts_with_p
-                 , ends_with_p: ends_with_p
-                 , has_p: has_p
-                 , empty_p: empty_p
-                 , size: size
-                 , count_occurrences: count_occurrences
+                 , starts_with_p     : starts_with_p
+                 , ends_with_p       : ends_with_p
+                 , has_p             : has_p
+                 , empty_p           : empty_p
+                 , size              : size
+                 , count_occurrences : count_occurrences
 
-                 , upcase: upcase
-                 , downcase: downcase
-                 , capitalise: capitalise
-                 , dasherise: dasherise
-                 , camelise: camelise
+                 , upcase            : upcase
+                 , downcase          : downcase
+                 , capitalise        : capitalise
+                 , dasherise         : dasherise
+                 , camelise          : camelise
 
-                 , first: first
-                 , rest: rest
-                 , last: last
-                 , but_last: but_last
-                 , slice: slice
-                 , take: take
-                 , drop: drop
-                 , split: split
+                 , first             : first
+                 , rest              : rest
+                 , last              : last
+                 , but_last          : but_last
+                 , slice             : slice
+                 , take              : take
+                 , drop              : drop
+                 , split             : split
 
-                 , compare: compare
-                 , equal_p: equal_p
+                 , compare           : compare
+                 , equal_p           : equal_p
 
-                 , format: format
+                 , format            : format
                  }
