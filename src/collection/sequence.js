@@ -262,8 +262,8 @@ function but_last(sequence) {
 
 
 ///// Function slice
-// Returns a new sequence containing an arbitrary part of the original
-// sequence.
+// Returns a new sequence containing part of the original sequence from
+// [`start', `end'[.
 //
 // If either `start' or `end' are given negative indexes, the number is
 // taken to be an offset from the end of the sequence.
