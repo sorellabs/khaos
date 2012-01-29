@@ -275,7 +275,8 @@ function take(string, size) {
 //
 // drop :: String, Number -> String
 function drop(string, size) {
-  return string.slice(size) }
+  return arguments.length == 1?  ''
+  :      /* otherwise */         string.slice(size) }
 
 
 ///// Function split
