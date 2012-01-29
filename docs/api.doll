@@ -139,9 +139,9 @@ Package collection
     camelise   :: String -> String
 
     -- Slicing ---------------------------------------------------------
-    first    :: String -> Maybe Char
+    first    :: String -> Char
     rest     :: String -> String
-    last     :: String -> Maybe Char
+    last     :: String -> Char
     but-last :: String -> String
     slice    :: String, start:Number?, end:Number? -> String
     take     :: String, Number -> String
