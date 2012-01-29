@@ -210,8 +210,8 @@ function dasherise(string) {
 function camelise(string) {
   var re = /[\s\-_]+(\w)/g
 
-  return downcase(string).replace(re, function(match, letter) {
-                                        return upcase(letter) })}
+  return downcase(trim(string)).replace(re, function(match, letter) {
+                                              return upcase(letter) })}
 
 
 
