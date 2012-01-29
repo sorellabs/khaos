@@ -5,7 +5,7 @@ describe('{} collection.string', function() {
 //  var ws = "\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF"
   var ws = "\x09\x0A\x0B\x0C\x0D\x20\xA0"
 
-  describe('repeat', function() {
+  describe('λ repeat', function() {
     it('Should return an empty string for times <= 0.', function() {
       expect($.repeat('foo', 0)).to.be('')
       expect($.repeat('foo', -10)).to.be('')
@@ -16,7 +16,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('concatenate', function() {
+  describe('λ concatenate', function() {
     it('Should handle gracefully non-strings.', function() {
       expect($.concatenate('f', 1)).to.be('f1')
       expect($.concatenate(0, 'f')).to.be('0f')
@@ -30,25 +30,25 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('trim', function() {
+  describe('λ trim', function() {
     it('Should remove whitespace from both sides.', function() {
       expect($.trim(ws + "foo" + ws)).to.be("foo")
     })
   })
 
-  describe('trim_left', function() {
+  describe('λ trim_left', function() {
     it('Should remove whitespace only at the beginning.', function() {
       expect($.trim_left(ws + "foo" + ws)).to.be("foo" + ws)
     })
   })
 
-  describe('trim_right', function() {
+  describe('λ trim_right', function() {
     it('Should remove whitespace only at the end.', function() {
       expect($.trim_right(ws + "foo" + ws)).to.be(ws + "foo")
     })
   })
 
-  describe('starts_with_p', function() {
+  describe('λ starts_with_p', function() {
     it('Should return true if `what` is at the beginning of the string.', function() {
       expect($.starts_with_p("foobar", "foo")).to.be.ok()
     })
@@ -58,7 +58,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('ends_with_p', function() {
+  describe('λ ends_with_p', function() {
     it('Should return true if `what` is at the end of the string.', function() {
       expect($.ends_with_p("foobar", "bar")).to.be.ok()
     })
@@ -68,7 +68,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('empty_p', function() {
+  describe('λ empty_p', function() {
     it('Should return true if the string is empty.', function() {
       expect($.empty_p("")).to.be.ok()
     })
@@ -78,7 +78,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('has_p', function() {
+  describe('λ has_p', function() {
     it('Should return true if `what` is contained in the string.', function() {
       expect($.has_p("foobar", "oba")).to.be.ok()
     })
@@ -90,7 +90,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('size', function() {
+  describe('λ size', function() {
     it('Should return the length of the string.', function() {
       expect($.size("")).to.be(0)
       expect($.size(" ")).to.be(1)
@@ -98,28 +98,28 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('count_occurrences', function() {
+  describe('λ count_occurrences', function() {
     it('Should return the number of occurrences of `what`.', function() {
       expect($.count_occurrences("foo", "o")).to.be(2)
       expect($.count_occurrences("foo", "O")).to.be(0)
     })
   })
 
-  describe('upcase', function() {
+  describe('λ upcase', function() {
     it('Should return the string converted to upper case.', function() {
       expect($.upcase("foo")).to.be("FOO")
       expect($.upcase("FoO")).to.be("FOO")
     })
   })
 
-  describe('downcase', function() {
+  describe('λ downcase', function() {
     it('Should return the string converted to lower case.', function() {
       expect($.downcase("FOO")).to.be("foo")
       expect($.downcase("Foo")).to.be("foo")
     })
   })
 
-  describe('capitalise', function() {
+  describe('λ capitalise', function() {
     it('Should capitalise only the first word.', function() {
       expect($.capitalise("foo bar")).to.be("Foo bar")
       expect($.capitalise("001 foo bar")).to.be("001 foo bar")
@@ -132,21 +132,21 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('dasherise', function() {
+  describe('λ dasherise', function() {
     it('Should replace all whitespace separating words by dashes.', function() {
       expect($.dasherise("foo bar      baz   ")).to.be("foo-bar-baz")
       expect($.dasherise("   foo   ")).to.be("foo")
     })
   })
 
-  describe('camelise', function() {
+  describe('λ camelise', function() {
     it('Should replace all whitespace separating words by the next letter uppercased.', function() {
       expect($.camelise(" foo bar baz ")).to.be("fooBarBaz")
       expect($.camelise(" foo-bar baz ")).to.be("fooBarBaz")
     })
   })
 
-  describe('first', function() {
+  describe('λ first', function() {
     it('Should return the first character in the string.', function() {
       expect($.first("foobar")).to.be("f")
     })
@@ -155,13 +155,13 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('rest', function() {
+  describe('λ rest', function() {
     it('Should return all but the first character in the string.', function() {
       expect($.rest("foobar")).to.be("oobar")
     })
   })
 
-  describe('last', function() {
+  describe('λ last', function() {
     it('Should return the last character in the string.', function() {
       expect($.last("foobar")).to.be("r")
     })
@@ -170,13 +170,13 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('but_last', function() {
+  describe('λ but_last', function() {
     it('Should return all but the last character in the string.', function() {
       expect($.but_last("foobar")).to.be("fooba")
     })
   })
 
-  describe('slice', function() {
+  describe('λ slice', function() {
     it('Should return the characters between [`start`, `end`[.', function() {
       expect($.slice('bar', 1, 2)).to.be('a')
       expect($.slice('bar', 0, 2)).to.be('ba')
@@ -198,7 +198,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('take', function() {
+  describe('λ take', function() {
     it('Should return at most the first `n` characters.', function() {
       expect($.take('foo', 2)).to.be('fo')
       expect($.take('foo', 0)).to.be('')
@@ -209,7 +209,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('drop', function() {
+  describe('λ drop', function() {
     it('Should skip at most the first `n` characters.', function() {
       expect($.drop('bar', 2)).to.be('r')
       expect($.drop('bar', 0)).to.be('bar')
@@ -220,7 +220,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('split', function() {
+  describe('λ split', function() {
     function splitter(v, k, s){ return k > 0 && k % 3 == 0 }
 
     it('Should split the string everytime the predicate holds.', function() {
@@ -231,7 +231,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('compare', function() {
+  describe('λ compare', function() {
     it('Should return -1 for L < R', function() {
       expect($.compare('bar', 'baz')).to.be(-1)
       expect($.compare('Bar', 'bar')).to.be(-1)
@@ -248,7 +248,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('equal_p', function() {
+  describe('λ equal_p', function() {
     it('Should return true if L = R', function() {
       expect($.equal_p('foo', 'foo')).to.be.ok()
       expect($.equal_p('foo', 'fooo')).to.not.be.ok()
@@ -259,7 +259,7 @@ describe('{} collection.string', function() {
     })
   })
 
-  describe('format', function() {
+  describe('λ format', function() {
     it('Should replace all variables with the respective mappings.', function() {
       expect($.format('if {:a} then {:b} else {:c}', {a:true,b:false,c:true})).to.be('if true then false else true')
       expect($.format('(when {:not-nil?} #t)', {'not-nil?': false})).to.be('(when false #t)')
