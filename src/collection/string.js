@@ -290,7 +290,7 @@ function split(string, predicate) {
   var start  = 0
   for (i = 0, len = string.length; i < len; ++i) {
     if (predicate(string.charAt(i), i, string)) {
-      result.push(string.slice(0, i))
+      result.push(string.slice(start, i))
       start = i }}
 
   if (start < len) result.push(string.slice(start))
