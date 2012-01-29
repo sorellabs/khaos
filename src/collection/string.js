@@ -141,12 +141,12 @@ function size(string) {
   return string.length }
 
 
-///// Function count
+///// Function count_occurrences
 // Returns the number of times the given piece of text appears in the
 // `string'.
 //
-// count :: String, String -> Number
-function count(string, what) {
+// count_occurrences :: String, String -> Number
+function count_occurrences(string, what) {
   var pos, result
   result = 0
   while (true) { pos = string.indexOf(what, pos + 1)
@@ -383,7 +383,7 @@ module.exports = { repeat: repeat
                  , has_p: has_p
                  , empty_p: empty_p
                  , size: size
-                 , count: count
+                 , count_occurrences: count_occurrences
 
                  , upcase: upcase
                  , downcase: downcase
