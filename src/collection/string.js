@@ -65,7 +65,7 @@ function repeat(string, times) {
 //
 // concatenate :: String... -> String
 function concatenate() {
-  return __concatenate.apply(null, arguments) }
+  return __concatenate.apply('', arguments) }
 
 
 
