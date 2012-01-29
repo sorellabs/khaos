@@ -47,6 +47,54 @@ function each(map, iterator) {
 
 //// -- Manipulation ---------------------------------------------------
 
+///// Function put
+// Assigns a value for the given key.
+//
+// put! :: {k -> e}*, k, e -> {k -> e}
+function put(map, key, value) {
+  Object(map)[key] = value
+  return map }
+
+
+///// Function remove
+// Removes the given key and its associated value from the map.
+//
+// remove! :: {k -> e}*, k -> {k -> e}
+function remove(map, key) {
+  delete Object(map)[key]
+  return map }
+
+
+///// Function replace
+// Replaces all the occurrences of `value' by the given `replacement'.
+//
+// This only replaces values that are directly set in the map
+// itself.
+//
+// replace! :: {k -> e}*, e, e -> {k -> e}
+function replace(map, value, replacement) {
+  var key
+  map = Object(map)
+  for (key in map)
+    if (has_key_p(map, key) && map[key] === value)
+      map[key] = replacement
+
+  return map }
+
+
+///// Function clear
+// Removes all key/value pairs from the map.
+//
+// clear! :: {k -> e}* -> {}
+function clear(map) {
+  each(map, function(value, key){
+              delete map[key] })
+  return map }
+
+
+
+//// -- Inspection -----------------------------------------------------
+
 ///// Function at
 // Retrieves the value for the given key.
 //
@@ -58,37 +106,6 @@ function at(map, key, _default) {
   return key in map?      map[key]
   :      /* otherwise */  _default }
 
-
-///// Function put
-// Assigns a value for the given key.
-//
-// put :: {k -> e}, k, e -> {k -> e}
-function put(map, key, value) {
-  Object(map)[key] = value
-  return map }
-
-
-///// Function remove
-// Removes the given key and its associated value from the map.
-//
-// remove :: {k -> e}, k -> {k -> e}
-function remove(map, key) {
-  delete Object(map)[key]
-  return map }
-
-
-///// Function clear
-// Removes all key/value pairs from the map.
-//
-// clear :: {k -> e} -> {}
-function clear(map) {
-  each(map, function(value, key){
-              delete map[key] })
-  return map }
-
-
-
-//// -- Inspection -----------------------------------------------------
 
 ///// Function size
 // Returns the number of key/value pairs in the map.
@@ -144,6 +161,7 @@ function items(map) {
                            acc.push([key, item])
                            return acc })}
 
+
 
 //// -- Folding --------------------------------------------------------
 
@@ -151,8 +169,7 @@ function items(map) {
 // Applies a function to each key/value pair in the map, returning the
 // accumulated value.
 //
-// reduce :: {k -> e}, Any, (Any, e, k -> Any) -> Any
-// reduce :: {k -> e}, (Any, e, k -> Any) -> Any
+// reduce :: {k -> e}, Any?, (Any, e, k, {k -> e} -> Any) -> Any
 function reduce(map, value, folder) {
   var props, i, len
   map   = Object(map)
@@ -162,7 +179,7 @@ function reduce(map, value, folder) {
     value  = map[props.shift()] }
 
   for (i = 0, len = props.length; i < len; ++i)
-    value = folder(value, map[props[i]], props[i])
+    value = folder(value, map[props[i]], props[i], map)
 
   return value }
 
@@ -236,16 +253,21 @@ function map(map, mapper) {
 
 //// -- Exports --------------------------------------------------------
 module.exports = { each      : each
-                 , at        : at
+
                  , put       : put
                  , remove    : remove
+                 , replace   : replace
                  , clear     : clear
+
+                 , at        : at
                  , size      : size
                  , empty_p   : empty_p
                  , has_key_p : has_key_p
+
                  , keys      : keys
                  , values    : values
                  , items     : items
+
                  , reduce    : reduce
                  , every     : every
                  , some      : some
