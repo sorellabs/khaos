@@ -158,6 +158,7 @@ function callable_p(subject) {
 //// -- Exports --------------------------------------------------------
 module.exports = { is_p        : is_p
                  , name        : name
+
                  , array_p     : Array.isArray
                  , string_p    : string_p
                  , number_p    : number_p
