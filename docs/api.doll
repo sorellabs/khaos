@@ -96,13 +96,17 @@ Package collection
     replace! :: {k -> e}*, value:e, replacement:e -> {k -> e}
     clear!   :: {k -> e}* -> {}
 
+    -- Inspection ------------------------------------------------------
+    at :: {k -> e}, k, default:e -> e
+    at :: {k -> e}, k -> Maybe e
+    size :: {k -> e} -> Number
+    empty? :: {k -> e} -> Bool
+    has_key? :: {k -> e}, k -> Bool
+
     -- Decomposing -----------------------------------------------------
     keys   :: {k -> e} -> [k]
     values :: {k -> e} -> [e]
     items  :: {k -> e} -> [(k, e)]
-
-    -- Searching -------------------------------------------------------
-    find :: {k -> e}, (e, k, {k -> e} -> Bool) -> Maybe k
 
     -- Folding ---------------------------------------------------------
     reduce :: {k -> e}, initial:Any?, (acc:Any, e, k, {k -> e} -> Any) -> Any
