@@ -147,8 +147,8 @@ function size(string) {
 //
 // count_occurrences :: String, String -> Number
 function count_occurrences(string, what) {
-  var pos, result
-  result = 0
+  var pos
+  var result = 0
   while (true) { pos = string.indexOf(what, pos + 1)
                  if (pos != -1)  ++result
                  else            break }
