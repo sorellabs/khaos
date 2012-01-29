@@ -366,8 +366,8 @@ function find_last(sequence, predicate) {
 //
 // reduce :: [a], Any?, (Any, a, UInt32, [a] -> Any) -> Any
 function reduce(sequence, value, folder) {
-  return __reduce.call(sequence, folder, value) }
-
+  return arguments.length == 2?  __reduce.call(sequence, value)
+  :      /* otherwise */         __reduce.call(sequence, folder, value) }
 
 ///// Function reduce_right
 // Applies a function to each index/value pair in the sequence, from
@@ -375,7 +375,8 @@ function reduce(sequence, value, folder) {
 //
 // reduce_right :: [a], Any?, (Any, a, UInt32, [a] -> Any) -> Any
 function reduce_right(sequence, value, folder) {
-  return __reduce_right.call(sequence, folder, value) }
+  return arguments.length == 2?  __reduce_right.call(sequence, value)
+  :      /* otherwise */         __reduce_right.call(sequence, folder, value) }
 
 
 ///// Function every
