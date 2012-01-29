@@ -11,3 +11,4 @@ dist
 ignore
 doctrees
 .buildinfo
+node_modules
