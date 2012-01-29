@@ -22,6 +22,26 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /// Module khaos.collection.string
+//
+// This module provides basic services for manipulating and interacting
+// with Strings in JavaScript.
+//
+// With this, the range of manipulation services in JavaScript is
+// extended with:
+//
+//   * Building Strings.
+//   * Trimming whitespaces from Strings.
+//   * Inspecting common properties of Strings.
+//   * Mapping a particular String format to another, which mostly
+//     includes the special mappings for case-folding.
+//   * Fine-grained and high-level slicing.
+//   * Comparing strings.
+//   * Formatting and templating.
+//
+// Some of these services are already provided by the native String
+// object's prototype, in which case we just make them available through
+// generic functions.
+
 
 //// -- Aliases --------------------------------------------------------
 var __trim        = ''.trim
