@@ -138,9 +138,20 @@ Package collection
     dasherise  :: String -> String
     camelise   :: String -> String
 
+    -- Slicing ---------------------------------------------------------
+    first    :: String -> Maybe Char
+    rest     :: String -> String
+    last     :: String -> Maybe Char
+    but-last :: String -> String
+    slice    :: String, start:Number?, end:Number? -> String
+    take     :: String, Number -> String
+    drop     :: String, Number -> String
+    split    :: String, (Char, Number, String -> Bool) -> [String]
+
+
     -- Comparison ------------------------------------------------------
-    compare :: String, String, foldcase:Bool -> Ordering
-    equal?  :: String, String, foldcase:Bool -> Bool
+    compare :: String, String, foldcase:Bool? -> Ordering
+    equal?  :: String, String, foldcase:Bool? -> Bool
 
     -- Formatting / Templating -----------------------------------------
     format :: String, {String -> String | (String... -> String)} -> String
