@@ -21,7 +21,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-/// Module khaos.type
+/// Module khaos.type.core
 //
 // This module provides functions for testing internal properties of the
 // objects, and might be useful for multiple dispatching in certain
@@ -37,8 +37,6 @@
 // not usually suited for *is-a* relationship tests due to its
 // prototypical object orientation nature.
 //
-// :see also:
-//   - `khaos.interface' — structural type checking module
 
 
 //// -- Aliases --------------------------------------------------------
