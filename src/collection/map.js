@@ -22,6 +22,34 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /// Module khaos.collection.map
+//
+// Provides services to work with objects as Maps, from `String' to
+// `Any' kind of data.
+//
+// This includes basic traversing, manipulation, inspection,
+// decomposition (getting keys, values or both from a Map) and the basic
+// folding operations.
+//
+// There are a few things worth noting when working with this library:
+//
+// First, all functions that do something with the set of keys or set of
+// values in an map, do so *at the map object level*. That is, they
+// don't bother with the objects such a map delegates to — no messing
+// with things in the prototype chain.
+//
+// Second, All of the pure functions that return a new Map in this
+// module are extremely dangerous — they don't copy non-enumerable
+// properties. This is per-design, as the library is to be compatible
+// with ES3 environments, which don't provide any ways to list
+// non-enumerable properties in an object.
+//
+// Another thing to keep in mind is that all pure functions do *only* a
+// shallow clone of the object, such that any structural changes won't
+// be noticed in other things that refer to those nested objects. Some
+// of the functions do no cloning at all (reduce), and just expect the
+// given callback function to not mutate the original object. Wishful
+// thinking all the way.
+//
 
 //// -- Aliases --------------------------------------------------------
 var _keys        = Object.keys
