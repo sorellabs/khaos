@@ -176,18 +176,18 @@ function keys(map) {
 //
 // values :: {k -> e} -> [e]
 function values(map) {
-  return reduce(map, [], function(acc, item, key) {
-                           acc.push(item)
-                           return acc })}
+  return reduce(map, [], function(result, item, key) {
+                           result.push(item)
+                           return result })}
 
 ///// Function items
 // Extracts the key/value pairs from the given map.
 //
 // items :: {k -> e} -> [(k, e)]
 function items(map) {
-  return reduce(map, [], function(acc, item, key) {
-                           acc.push([key, item])
-                           return acc })}
+  return reduce(map, [], function(result, item, key) {
+                           result.push([key, item])
+                           return result })}
 
 
 
