@@ -44,7 +44,9 @@ module.exports = Base.derive({
   function _each(iterator) {
     var self = this
     map.each(this._dictionary, function(value, key) {
-                                 iterator(value, key.slice(1), self) })
+                                 iterator( value
+                                         , key.slice(this._key_prefix.length)
+                                         , self) })
     return this }
 
 , put:
@@ -101,7 +103,7 @@ module.exports = Base.derive({
 , keys:
   function _keys() {
     return map.keys(this._dictionary)
-              .map(function(key) { return key.slice(1) }) }
+              .map(function(key) { return key.slice(this._key_prefix.length) }) }
 
 , values:
   function _values() {
@@ -117,31 +119,42 @@ module.exports = Base.derive({
   function _reduce(value, folder) {
     var self = this
     return map.reduce(this._dictionary, value, function(result, value, key) {
-                                                 return folder(result, value, key.slice(1), self) })}
+                                                 return folder( result
+                                                              , value
+                                                              , key.slice(this._key_prefix.length)
+                                                              , self) })}
 
 , every:
   function _every(predicate) {
     var self = this
     return map.every(this._dictionary, function(value, key) {
-                                         return predicate(value, key.slice(1), self) })}
+                                         return predicate( value
+                                                         , key.slice(this._key_prefix.length)
+                                                         , self) })}
 
 , some:
   function _some(predicate) {
     var self = this
     return map.some(this._dictionary, function(value, key) {
-                                        return predicate(value, key.slice(1), self) })}
+                                        return predicate( value
+                                                        , key.slice(this._key_prefix.length)
+                                                        , self) })}
 
 , filter:
   function _filter(predicate) {
     var self = this
     this._dictionary = map.filter(this._dictionary, function(value, key) {
-                                                      return predicate(value, key.slice(1), self) })
+                                                      return predicate( value
+                                                                      , key.slice(this._key_prefix.length)
+                                                                      , self) })
     return this }
 
 , map:
   function _map(mapper) {
     var self = this
     this._dictionary = map.map(this._dictionary, function(value, key) {
-                                                   return mapper(value, key.slice(1), self) })
+                                                   return mapper( value
+                                                                , key.slice(this._key_prefix.length)
+                                                                , self) })
     return this }
 })
