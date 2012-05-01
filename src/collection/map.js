@@ -1,4 +1,4 @@
-/// map.js --- Mapping collection handling
+/// map.js --- Associative collection handling
 //
 // Copyright (c) 2011 Quildreen Motta
 //
@@ -59,7 +59,7 @@ var has_own_prop = {}.hasOwnProperty
 
 
 
-//// -- Traversable ----------------------------------------------------
+//// -- Traversing -----------------------------------------------------
 
 ///// Function each
 // Applies the iterator function to each key/value pair in the map.
