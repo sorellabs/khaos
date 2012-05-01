@@ -54,14 +54,15 @@ function compose() {
 // Creates a curried function, that returns the original function until
 // all arguments are gathered.
 //
-// curry :: (Any... -> a) -> Any -> ... -> a
-function curry(arity, fun, args) {
-  var n = 2
-  if (!fun) fun = arity, arity = fun.length, --n
-  var initial = arguments[n] || []
+// curry :: Number?, (Any... -> a), [Any]? -> Any -> ... -> a
+function curry(arity, fun, initial) {
+  if (typeof arity == 'function') {
+    initial = arguments[1]
+    fun     = arity
+    arity   = fun.length }
 
   return function _curried() {
-           var args = initial.concat(slice.call(arguments))
+           var args = (initial || []).concat(slice.call(arguments))
 
            return args.length < arity?  curry(arity, fun, args)
            :      /* otherwise */       fun.apply(this, args) }}
