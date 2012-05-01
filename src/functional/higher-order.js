@@ -76,7 +76,7 @@ function curry(arity, fun, initial) {
 // uncurry :: (Any... -> a) -> [Any] -> a
 function uncurry(fun) {
   return function _uncurried(args) {
-           return fun.apply(args) }}
+           return fun.apply(this, args) }}
 
 
 ///// Function uncurry_bind ////////////////////////////////////////////
