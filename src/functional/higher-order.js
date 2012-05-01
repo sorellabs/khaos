@@ -112,7 +112,7 @@ function partial(fun) {
 // wrap :: Fun, (Fun -> a) -> a
 function wrap(fun, wrapper) {
   return function _wrapped() {
-           wrapper.apply(this, [fun].concat(slice.call(arguments))) }}
+           return wrapper.apply(this, [fun].concat(slice.call(arguments))) }}
 
 
 
