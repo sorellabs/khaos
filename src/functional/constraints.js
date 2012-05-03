@@ -53,11 +53,11 @@ function once(fun) { return limit(fun, 1) }
 
 ///// Function until ///////////////////////////////////////////////////
 // Higher-order function that turns the given function into a NOOP once
-// the predicate doesn't hold.
+// the predicate holds.
 //
 // until :: (() -> Bool), (Any... -> a) -> Any... -> Maybe a
 function until(predicate, fun) {
-  return function _until() { if (!predicate()) fun = noop
+  return function _until() { if (predicate()) fun = noop
                              return fun.apply(this, arguments) }}
 
 
