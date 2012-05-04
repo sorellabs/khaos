@@ -151,7 +151,7 @@ describe('{} collection.map', function() {
       expect(keys).to.eql([])
       expect(values).to.eql([]) })
 
-    it('Should short-circuit', function() {
+    it('Should short-circuit as soon as the predicate fails', function() {
       var x = true
       var c = 0
       expect(map.every(data, function(acc, value) {
@@ -166,7 +166,7 @@ describe('{} collection.map', function() {
       expect(keys).to.eql([])
       expect(values).to.eql([]) })
 
-    it('Should short-circuit', function() {
+    it('Should short-circuit as soon as the predicate passes', function() {
       expect(map.some(data, check_call)).to.be.ok()
       expect(keys.length).to.be(1) })
   })
@@ -199,4 +199,3 @@ describe('{} collection.map', function() {
   })
 
 })
-
