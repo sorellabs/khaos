@@ -27,7 +27,7 @@ var fold = require('./util').fold
 
 function sum() {
   return fold( arguments
-             , function(a, b){ return a + b }
+             , function(a, b){ return Number(a) + Number(b) }
              , 0 )}
 
 function sub() {
