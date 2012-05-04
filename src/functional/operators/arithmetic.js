@@ -27,11 +27,13 @@ var fold = require('./util').fold
 
 function sum() {
   return fold( arguments
-             , function(a, b){ return a + b })}
+             , function(a, b){ return a + b }
+             , 0 )}
 
 function sub() {
   return fold( arguments
-             , function(a, b){ return a - b })}
+             , function(a, b){ return a - b }
+             , arguments.length <= 1? 0 : null )}
 
 function mul() {
   return fold( arguments
@@ -40,11 +42,13 @@ function mul() {
 
 function div() {
   return fold( arguments
-             , function(a, b){ return a / b })}
+             , function(a, b){ return a / b }
+             , arguments.length == 0? 1 : null )}
 
 function mod() {
   return fold( arguments
-             , function(a, b){ return a % b })}
+             , function(a, b){ return a % b }
+             , arguments.length == 0? 0 : null )}
 
 module.exports = { sum: sum
                  , sub: sub

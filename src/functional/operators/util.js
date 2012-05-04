@@ -25,8 +25,8 @@ var slice = [].slice
 
 function fold(xs, f, initial) {
   xs = slice.call(xs)
-  return arguments.length > 2?  xs.reduce(f, initial)
-  :      /* otherwise */        xs.reduce(f) }
+  return initial != null?  xs.reduce(f, initial)
+  :      /* otherwise */   xs.reduce(f) }
 
 function all(xs, f) {
   var len = xs.length
