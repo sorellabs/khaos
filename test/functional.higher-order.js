@@ -1,6 +1,6 @@
 describe('{} functional.higher-order', function() {
   var _ = require('../src/functional/higher-order')
-  var ensure = require('frame').ensure
+  var ensure = require('noire').ensure
 
   var f, g, h, z, a, b, invoke
   beforeEach(function() {
@@ -89,5 +89,4 @@ describe('{} functional.higher-order', function() {
     it('Should return the result of the wrapper application', function() {
       ensure(_.wrap(g, function(a, b, c){ return a(b, c) })(1, 2)).same(g(1, 2)) })
   })
-
 })

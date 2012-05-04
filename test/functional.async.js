@@ -1,6 +1,6 @@
 describe('{} functional.async', function() {
   var _      = require('../src/functional/async')
-  var ensure = require('frame').ensure
+  var ensure = require('noire').ensure
 
   describe('λ delay', function() {
     it('Should execute `f` after the given `seconds`.', function(done) {
