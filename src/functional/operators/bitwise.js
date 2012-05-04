@@ -27,29 +27,35 @@ var fold = require('./util').fold
 
 function and() {
   return fold( arguments
-             , function(a, b){ return a & b })}
+             , function(a, b){ return a & b }
+             , arguments.length == 0? 0 : null )}
 
 function or() {
   return fold( arguments
-             , function(a, b){ return a | b })}
+             , function(a, b){ return a | b }
+             , 0 )}
 
 function xor() {
   return fold( arguments
-             , function(a, b){ return a ^ b })}
+             , function(a, b){ return a ^ b }
+             , 0 )}
 
 function not(x) { return ~x }
 
 function shl() {
   return fold( arguments
-             , function(a, b){ return a << b })}
+             , function(a, b){ return a << b }
+             , arguments.length == 0? 0 : null )}
 
 function shr() {
   return fold( arguments
-             , function(a, b){ return a >> b })}
+             , function(a, b){ return a >> b }
+             , arguments.length == 0? 0 : null )}
 
 function ushr() {
   return fold( arguments
-             , function(a, b){ return a >>> b })}
+             , function(a, b){ return a >>> b }
+             , arguments.length == 0? 0 : null )}
 
 
 module.exports = { and  : and
