@@ -100,7 +100,7 @@ module.exports = Base.derive({
     map.each(this._dictionary, function(value, key) {
                                  iterator( value
                                          , key.slice(this._key_prefix.length)
-                                         , self) })
+                                         , self) }.bind(this))
     return this }
 
 
