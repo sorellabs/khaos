@@ -38,6 +38,21 @@ var map  = require('../map')
 
 
 
+//// -- Interfaces -----------------------------------------------------
+
+///// Interface Traversable
+// A traversable is any object that complies with map's `each'
+// function.
+//
+// Traversable :: { "each" -> ({k -> e}, (e, k, {k -> e} -> Ignored) -> Undefined) }
+
+
+///// Interface Hashmap
+// Hashmap :: { "_dictionary" -> {k -> e}
+//            , "_key_prefix" -> String
+//            }
+
+
 //// -- Helpers --------------------------------------------------------
 
 ///// Function traversable_p
@@ -49,6 +64,7 @@ function traversable_p(subject) {
   &&     typeof subject.each == 'function' }
 
 
+
 
 //// -- Exports --------------------------------------------------------
 
@@ -57,7 +73,11 @@ module.exports = Base.derive({
   ///// -- Initialisation ----------------------------------------------
 
   ////// Function init
-  // Initialises an instance of a `Hashmap'
+  // Initialises an instance of a `Hashmap'.
+  //
+  // If given a `Traversable' or a plain JavaScript object, the
+  // key/value pairs from this object will be imported in the new
+  // `Hashmap' instance.
   //
   // init! :: @this:Object* -> this
   init:
