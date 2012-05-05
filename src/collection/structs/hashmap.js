@@ -72,7 +72,7 @@ function traversable_p(subject) {
 
 //// -- Exports --------------------------------------------------------
 
-module.exports = Base.derive({
+var Hashmap = Base.derive({
 
   ///// -- Initialisation ----------------------------------------------
 
@@ -302,12 +302,13 @@ module.exports = Base.derive({
   // filter :: @this:Hashmap, (e, k, Hashmap -> Bool) -> Hashmap
 , filter:
   function _filter(predicate) {
-    var self = this
-    this._dictionary = map.filter(this._dictionary, function(value, key) {
-                                                      return predicate( value
-                                                                      , key.slice(self._key_prefix.length)
-                                                                      , self) })
-    return this }
+    var result = Hashmap.make()
+    var self   = this
+    result._dictionary = map.filter(this._dictionary, function(value, key) {
+                                                        return predicate( value
+                                                                        , key.slice(self._key_prefix.length)
+                                                                        , self) })
+    return result }
 
 
   ////// Function map
@@ -317,10 +318,14 @@ module.exports = Base.derive({
   // map :: @this:Hashmap, (e, k, Hashmap -> e) -> Hashmap
 , map:
   function _map(mapper) {
-    var self = this
-    this._dictionary = map.map(this._dictionary, function(value, key) {
-                                                   return mapper( value
-                                                                , key.slice(self._key_prefix.length)
-                                                                , self) })
-    return this }
+    var result = Hashmap.make()
+    var self   = this
+    result._dictionary = map.map(this._dictionary, function(value, key) {
+                                                     return mapper( value
+                                                                  , key.slice(self._key_prefix.length)
+                                                                  , self) })
+    return result }
 })
+
+
+module.exports = Hashmap
