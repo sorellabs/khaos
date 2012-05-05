@@ -148,18 +148,14 @@ module.exports = Base.derive({
   // update! :: @this:Hashmap*, (Traversable | Object) -> this
 , update:
   function _update(dictionary) {
-    var self    = this
-    var fix_key = key_mapping(Object(dictionary))
+    var self = this
 
       traversable_p(dictionary)?  dictionary.each(import_data)
     : /* otherwise */             map.each(dictionary, import_data)
 
-    function import_data(value, key, map) { self.put(fix_key(key), value) }
-    function key_mapping(map) {
-      return '_key_prefix' in map? function(key){ return key.slice(map._key_prefix.length) }
-      :      /* otherwise */       function(key){ return key                               }}
+    return this
 
-    return this }
+    function import_data(value, key, map) { self.put(key, value) }}
 
 
   ////// Function clear
