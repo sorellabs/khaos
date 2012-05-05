@@ -144,7 +144,7 @@ function size(map) {
 
 
 ///// Function empty_p
-// Does the map have any key/value pairs?
+// Does the map have no key/value pairs?
 //
 // empty_p :: {k -> e} -> Bool
 function empty_p(map) {
@@ -213,7 +213,7 @@ function reduce(map, value, folder) {
 
 
 ///// Function every
-// Does the predicate succeeds for each key/value pair in the map?
+// Does the predicate succeeds for all key/value pairs in the map?
 //
 // every :: {k -> e}, (e, k, {k -> e} -> Bool) -> Bool
 function every(map, predicate) {
@@ -261,7 +261,7 @@ function filter(map, predicate) {
 
 ///// Function map
 // Yields a new map, where the values of each key/value pair are
-// transformed by the given mapper function.
+// transformed by the given mapping function.
 //
 // The map's prototype chain is maintained, but non-enumerable
 // properties are discarded.
