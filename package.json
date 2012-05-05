@@ -2,15 +2,17 @@
   "author": "Quildreen Motta <quildreen@gmail.com> (http://killdream.github.com/)",
   "name": "khaos",
   "description": "Basic libraries and data-structures for JS.",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "main": "./src/index.js",
   "repository": {
-    "url": ""
+    "type": "git",
+    "url": "git://github.com/killdream/khaos"
   },
   "engines": {
     "node": "~0.6.7"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": { "boo": "~1.2.0"},
+  "devDependencies": { "mocha": "*"
+                     , "noire": "*" },
   "optionalDependencies": {}
 }
