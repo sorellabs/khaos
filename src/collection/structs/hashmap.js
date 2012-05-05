@@ -99,8 +99,8 @@ module.exports = Base.derive({
     var self = this
     map.each(this._dictionary, function(value, key) {
                                  iterator( value
-                                         , key.slice(this._key_prefix.length)
-                                         , self) }.bind(this))
+                                         , key.slice(self._key_prefix.length)
+                                         , self) })
     return this }
 
 
@@ -215,8 +215,9 @@ module.exports = Base.derive({
   // keys :: @this:Hashmap -> [k]
 , keys:
   function _keys() {
+    var self = this
     return map.keys(this._dictionary)
-              .map(function(key) { return key.slice(this._key_prefix.length) }.bind(this)) }
+              .map(function(key) { return key.slice(self._key_prefix.length) }) }
 
 
   ////// Function values
@@ -252,7 +253,7 @@ module.exports = Base.derive({
     return map.reduce(this._dictionary, value, function(result, value, key) {
                                                  return folder( result
                                                               , value
-                                                              , key.slice(this._key_prefix.length)
+                                                              , key.slice(self._key_prefix.length)
                                                               , self) })}
 
   ////// Function every
@@ -265,7 +266,7 @@ module.exports = Base.derive({
     var self = this
     return map.every(this._dictionary, function(value, key) {
                                          return predicate( value
-                                                         , key.slice(this._key_prefix.length)
+                                                         , key.slice(self._key_prefix.length)
                                                          , self) })}
 
 
@@ -279,7 +280,7 @@ module.exports = Base.derive({
     var self = this
     return map.some(this._dictionary, function(value, key) {
                                         return predicate( value
-                                                        , key.slice(this._key_prefix.length)
+                                                        , key.slice(self._key_prefix.length)
                                                         , self) })}
 
 
@@ -293,7 +294,7 @@ module.exports = Base.derive({
     var self = this
     this._dictionary = map.filter(this._dictionary, function(value, key) {
                                                       return predicate( value
-                                                                      , key.slice(this._key_prefix.length)
+                                                                      , key.slice(self._key_prefix.length)
                                                                       , self) })
     return this }
 
@@ -308,7 +309,7 @@ module.exports = Base.derive({
     var self = this
     this._dictionary = map.map(this._dictionary, function(value, key) {
                                                    return mapper( value
-                                                                , key.slice(this._key_prefix.length)
+                                                                , key.slice(self._key_prefix.length)
                                                                 , self) })
     return this }
 })
