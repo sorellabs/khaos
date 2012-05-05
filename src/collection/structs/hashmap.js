@@ -216,7 +216,7 @@ module.exports = Base.derive({
 , keys:
   function _keys() {
     return map.keys(this._dictionary)
-              .map(function(key) { return key.slice(this._key_prefix.length) }) }
+              .map(function(key) { return key.slice(this._key_prefix.length) }.bind(this)) }
 
 
   ////// Function values
