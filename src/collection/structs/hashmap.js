@@ -37,6 +37,10 @@ var Base = require('boo').Base
 var map  = require('../map')
 
 
+//// -- Aliases --------------------------------------------------------
+var keys = Object.keys
+
+
 
 //// -- Interfaces -----------------------------------------------------
 
@@ -250,11 +254,18 @@ module.exports = Base.derive({
 , reduce:
   function _reduce(value, folder) {
     var self = this
-    return map.reduce(this._dictionary, value, function(result, value, key) {
-                                                 return folder( result
-                                                              , value
-                                                              , key.slice(self._key_prefix.length)
-                                                              , self) })}
+    var dict = this._dictionary
+    if (arguments.length == 1) {
+      var prop = keys(dict).shift()
+      folder   = value
+      value    = dict[prop]
+      dict     = map.filter(dict, function(v, k){ return k !== prop }) }
+
+    return map.reduce(dict, value, function(result, value, key) {
+                                              return folder( result
+                                                           , value
+                                                           , key.slice(self._key_prefix.length)
+                                                           , self) })}
 
   ////// Function every
   // Dos the predicate succeeds for all key/value pairs in the
