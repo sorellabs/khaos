@@ -37,10 +37,11 @@ var slice = [].slice
 // compose :: Fun... -> Fun
 function compose() {
   var funs = slice.call(arguments)
-  var i    = funs.length
+  var len  = funs.length
 
   return function _composition() {
            var result = arguments
+           var i      = len
            while (i--)
              result = [funs[i].apply(this, result)]
 
