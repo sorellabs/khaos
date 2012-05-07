@@ -11,7 +11,8 @@
   "engines": {
     "node": "~0.6.7"
   },
-  "dependencies": { "boo": "~1.2.0"},
+  "dependencies": { "boo": "~1.2.0"
+                  , "pandora": "~1.0.2" },
   "devDependencies": { "mocha": "*"
                      , "noire": "*" },
   "optionalDependencies": {}
