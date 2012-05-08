@@ -25,7 +25,9 @@ describe('{} functional.higher-order', function() {
       ensure(_.compose(a, b)()).equals(['b', 'a']) })
 
     it('Should pipe the result as the only argument', function() {
-      ensure(_.compose(f, g)(2, 4)).same(3)
+      var x = _.compose(f, g)
+      ensure(x(2, 4)).same(3)
+      ensure(x(4, 4)).same(4)
       ensure(_.compose(f, f, g)(4, 4)).same(2) })
   })
 
