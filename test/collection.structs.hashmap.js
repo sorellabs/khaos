@@ -19,11 +19,11 @@ describe('{} collection.structs.hashmap', function() {
   describe('λ init', function() {
     it('Should initialise an object with the basic Hashmap interface.', function() {
       var x = Hashmap.make()
-      ensure(x).property('_key_prefix')
-      ensure(x._key_prefix).type('String')
+      ensure(x).property('_key_prefix').exists()
+      ensure(x).property('_key_prefix').type('String')
 
-      ensure(x).property('_dictionary')
-      ensure(x._dictionary).type('Object')
+      ensure(x).property('_dictionary').exists()
+      ensure(x).property('_dictionary').type('Object')
     })
     it('Should update the Hashmap if a dictionary is given.', function() {
       var x = Hashmap.make({ foo: 1, bar: 2 })
@@ -40,11 +40,11 @@ describe('{} collection.structs.hashmap', function() {
     it('Should applly iterator to every key.', function() {
       var f = sinon.stub()
       a.each(f)
-      ensure(f).property('callCount', 2)
+      ensure(f).property('callCount').same(2)
 
       var f = sinon.stub()
       b.each(f)
-      ensure(f).property('callCount', 3)
+      ensure(f).property('callCount').same(3)
     })
     it('Should pass (value, key, hashmap) to the iterator.', function() {
       var f = sinon.stub()
@@ -63,8 +63,9 @@ describe('{} collection.structs.hashmap', function() {
     it('Should avoid problems with magical properties.', function() {
       if (!('__proto__' in {})) return console.log('__proto__ magic not supported')
 
-      a.put('__proto__', {})
-      ensure(a._dictionary).property('__proto__', Object.prototype)
+      a.put('__proto__', [])
+      ensure(a._dictionary).property('__proto__').same(Object.prototype)
+      ensure(a).invoke('at', '__proto__').type('Array')
     })
   })
 
@@ -157,7 +158,7 @@ describe('{} collection.structs.hashmap', function() {
     it('Should return a list of all values.', function() {
       ensure(a.values()).contains(1)
       ensure(a.values()).contains(c)
-      ensure(a.values()).property('length', 2)
+      ensure(a.values()).property('length').same(2)
     })
   })
 
@@ -194,7 +195,7 @@ describe('{} collection.structs.hashmap', function() {
       var x = Hashmap.make({ a: 1, b: '2', c: 3 })
       var f = sinon.stub().returns(true).withArgs('2').returns(false)
       x.every(f)
-      ensure(f).property('callCount', keys(x._dictionary).indexOf('@b'))
+      ensure(f).property('callCount').same(keys(x._dictionary).indexOf('@b'))
     })
   })
 
@@ -207,7 +208,7 @@ describe('{} collection.structs.hashmap', function() {
       var x = Hashmap.make({ a: '1', b: 2, c: 3 })
       var f = sinon.stub().returns(false).withArgs(2).returns(true)
       x.some(f)
-      ensure(f).property('callCount', keys(x._dictionary).indexOf('@b'))
+      ensure(f).property('callCount').same(keys(x._dictionary).indexOf('@b'))
     })
   })
 

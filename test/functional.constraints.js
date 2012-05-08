@@ -8,17 +8,17 @@ describe('{} functional.constraints', function() {
     it('Should return a function that will be called at most X times.', function() {
       var g = sinon.stub()
       var x = _.limit(0, g)()
-      ensure(g).property('callCount', 0)
+      ensure(g).property('callCount').same(0)
 
       g = sinon.stub()
       x = _.limit(3, g)
       x(); x()
-      ensure(g).property('callCount', 2)
+      ensure(g).property('callCount').same(2)
 
       g = sinon.stub()
       x = _.limit(5, g)
       x(); x(); x(); x(); x(); x()
-      ensure(g).property('callCount', 5)
+      ensure(g).property('callCount').same(5)
     })
   })
 
