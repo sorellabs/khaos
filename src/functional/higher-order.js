@@ -104,6 +104,17 @@ function partial(fun) {
            return fun.apply(this, args.concat(slice.call(arguments))) }}
 
 
+///// Function partial_right ///////////////////////////////////////////
+// Partially applies the given arguments to the end of the function,
+// returning a new function.
+//
+// partial_right :: (Any... -> a), Any... -> Any... -> a
+function partial_right(fun) {
+  var args = slice.call(arguments, 1)
+  return function _partially_applied_right() {
+           return fun.apply(this, slice.call(arguments).concat(args)) }}
+
+
 
 //// -- Wrapping -------------------------------------------------------
 
@@ -118,9 +129,10 @@ function wrap(fun, wrapper) {
 
 
 //// -- Exports --------------------------------------------------------
-module.exports = { compose      : compose
-                 , curry        : curry
-                 , uncurry      : uncurry
-                 , uncurry_bind : uncurry_bind
-                 , partial      : partial
-                 , wrap         : wrap }
+module.exports = { compose       : compose
+                 , curry         : curry
+                 , uncurry       : uncurry
+                 , uncurry_bind  : uncurry_bind
+                 , partial       : partial
+                 , partial_right : partial_right
+                 , wrap          : wrap }

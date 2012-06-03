@@ -80,6 +80,19 @@ describe('{} functional.higher-order', function() {
     it('Should accept a pattern describing which parameters to specity')
   })
 
+  describe('λ partial-right', function() {
+    it('Should return a new function', function() {
+      ensure(_.partial_right(g)).type('function')
+      ensure(_.partial_right(g)).not().same(g) })
+
+    it('Should apply the given arguments concatenate with the initial to the function', function() {
+      ensure(_.partial(g, 2)(2)).same(g(2, 2))
+      ensure(_.partial(h, 2, 3)(4)).same(h(4, 2, 3)) })
+
+    it('Should accept a pattern describing which parameters to specity')
+  })
+
+
   describe('λ wrap', function() {
     it('Should return a new function', function() {
       ensure(_.wrap(g)).type('function')
